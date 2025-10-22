@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import { QuizQuestion, QuizData } from "@/lib/services/quiz-service";
 import jsPDF from 'jspdf';
 
-export default function QuizPage() {
+function QuizContent() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<{[key: number]: number[]}>({});
   const [showResults, setShowResults] = useState(false);
@@ -825,5 +825,24 @@ export default function QuizPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function QuizPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-auto mb-4"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    }>
+      <QuizContent />
+    </Suspense>
   );
 }

@@ -4,7 +4,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { examTopics } from "@/utils/constants";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 interface ExamType {
   id: string;
@@ -22,7 +22,7 @@ interface ExamType {
   }>;
 }
 
-export default function ExamDetailsPage() {
+function ExamDetailsContent() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -426,5 +426,24 @@ export default function ExamDetailsPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ExamDetailsPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-auto mb-4"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    }>
+      <ExamDetailsContent />
+    </Suspense>
   );
 }

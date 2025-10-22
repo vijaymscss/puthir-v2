@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { examTopics } from "@/utils/constants";
 
-export default function InstructionsPage() {
+function InstructionsContent() {
   const [isVisible, setIsVisible] = useState(false);
   const searchParams = useSearchParams();
   
@@ -238,5 +238,24 @@ export default function InstructionsPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function InstructionsPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-auto mb-4"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    }>
+      <InstructionsContent />
+    </Suspense>
   );
 }
