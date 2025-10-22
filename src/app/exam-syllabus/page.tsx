@@ -26,7 +26,6 @@ interface ExamType {
 }
 
 export default function ExamSyllabusPage() {
-  const [selectedExam, setSelectedExam] = useState<string | null>(null);
   const [viewingDetailedSyllabus, setViewingDetailedSyllabus] = useState<string | null>(null);
 
   const getBadgeClass = (level: string) => {
@@ -178,12 +177,7 @@ export default function ExamSyllabusPage() {
                 {provider.examTypes.map((exam) => (
                   <Card 
                     key={exam.id}
-                    className={`transition-all duration-300 hover:shadow-lg cursor-pointer ${
-                      selectedExam === exam.id 
-                        ? "ring-2 ring-blue-500 shadow-lg transform scale-[1.02]" 
-                        : "hover:transform hover:scale-[1.01]"
-                    }`}
-                    onClick={() => setSelectedExam(selectedExam === exam.id ? null : exam.id)}
+                    className="transition-all duration-300 hover:shadow-lg hover:transform hover:scale-[1.01]"
                   >
                     <CardHeader className="pb-4">
                       <div className="flex justify-between items-start mb-2">
@@ -204,7 +198,7 @@ export default function ExamSyllabusPage() {
                       </p>
                       
                       {/* Exam Details */}
-                      <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div className="grid gap-3 text-sm">
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4 text-blue-500" />
                           <span>{exam.duration}</span>
@@ -219,25 +213,7 @@ export default function ExamSyllabusPage() {
                         </div>
                       </div>
 
-                      {/* Syllabus Categories - Show when selected */}
-                      {selectedExam === exam.id && (
-                        <div className="mt-4 pt-4 border-t">
-                          <h4 className="font-semibold mb-3 flex items-center gap-2">
-                            <BookOpen className="w-4 h-4" />
-                            Exam Domains
-                          </h4>
-                          <div className="space-y-2">
-                            {exam.categories.map((category, index) => (
-                              <div 
-                                key={index}
-                                className="flex items-center justify-between p-2 bg-muted rounded-md text-sm"
-                              >
-                                <span className="font-medium">{category}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                      
 
                       {/* Action Button */}
                       <div className="pt-4">
@@ -248,6 +224,8 @@ export default function ExamSyllabusPage() {
                           View Detailed Syllabus
                         </Button>
                       </div>
+
+
                     </CardContent>
                   </Card>
                 ))}
@@ -257,21 +235,7 @@ export default function ExamSyllabusPage() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 text-center">
-          <Card className="max-w-2xl mx-auto">
-            <CardContent className="pt-8 pb-8">
-              <h3 className="text-2xl font-bold mb-4">Ready to Test Your Knowledge?</h3>
-              <p className="text-muted-foreground mb-6">
-                After reviewing the detailed syllabus, start practicing with AI-generated questions tailored to your chosen exam.
-              </p>
-              <Link href="/quiz-setup">
-                <Button size="lg" className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
-                  Start Practice Quizzes
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
+        
       </div>
     </main>
   );

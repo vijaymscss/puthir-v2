@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,28 +18,73 @@ interface ExamType {
   categories: string[];
 }
 
-const cloudPlatforms = [
-  { id: "aws", name: "AWS (Amazon Web Services)", icon: "☁️", available: true },
-  { id: "azure", name: "Microsoft Azure", icon: "🔵", available: false },
-  { id: "gcp", name: "Google Cloud Platform", icon: "🌐", available: false }
-];
+interface CloudPlatform {
+  id: string;
+  name: string;
+  icon: string;
+  available: boolean;
+  examCount: number;
+}
+
+// Function to check if platform data is available
+const checkPlatformAvailability = (platformId: string): { available: boolean; examCount: number } => {
+  try {
+    switch (platformId) {
+      case 'aws':
+        // Check AWS data from examTopics
+        const awsExams = examTopics.find(topic => topic.id === "aws")?.examTypes || [];
+        return { available: awsExams.length > 0, examCount: awsExams.length };
+      case 'azure':
+        // Currently no azure data available
+        return { available: false, examCount: 0 };
+      case 'gcp':
+        // Currently no GCP data available
+        return { available: false, examCount: 0 };
+      default:
+        return { available: false, examCount: 0 };
+    }
+  } catch (error) {
+    console.error(`Error checking availability for ${platformId}:`, error);
+    return { available: false, examCount: 0 };
+  }
+};
 
 export default function QuizSetupPage() {
   const router = useRouter();
   const [selectedPlatform, setSelectedPlatform] = useState<string>("");
   const [selectedExam, setSelectedExam] = useState<string>("");
   const [showMessage, setShowMessage] = useState<string>("");
+  const [cloudPlatforms, setCloudPlatforms] = useState<CloudPlatform[]>([]);
+
+  // Initialize platforms with dynamic availability checking
+  useEffect(() => {
+    const platforms = [
+      { id: "aws", name: "Amazon Web Services", icon: "/aws_logo.svg" },
+      { id: "azure", name: "Microsoft Azure", icon: "/azure_logo.svg" },
+      { id: "gcp", name: "Google Cloud Platform", icon: "/gcp_logo.svg" }
+    ];
+
+    const updatedPlatforms: CloudPlatform[] = platforms.map(platform => {
+      const { available, examCount } = checkPlatformAvailability(platform.id);
+      return {
+        ...platform,
+        available,
+        examCount
+      };
+    });
+
+    setCloudPlatforms(updatedPlatforms);
+  }, []);
 
   const handlePlatformSelection = (platformId: string) => {
-    setSelectedPlatform(platformId);
-    setSelectedExam("");
+    const platform = cloudPlatforms.find(p => p.id === platformId);
     
-    if (platformId === "azure") {
-      setShowMessage("Azure quiz is under development. Please check back soon!");
-    } else if (platformId === "gcp") {
-      setShowMessage("GCP quiz is under development. Please check back soon!");
-    } else {
+    if (platform?.available) {
+      setSelectedPlatform(platformId);
+      setSelectedExam("");
       setShowMessage("");
+    } else {
+      setShowMessage(`${platform?.name || 'This platform'} quiz is under development. Please check back soon!`);
     }
   };
 
@@ -48,7 +93,8 @@ export default function QuizSetupPage() {
   };
 
   const handleContinue = () => {
-    if (selectedPlatform === "aws" && selectedExam) {
+    const platform = cloudPlatforms.find(p => p.id === selectedPlatform);
+    if (platform?.available && selectedExam) {
       router.push(`/quiz-setup/customize?exam=${selectedExam}`);
     }
   };
@@ -77,21 +123,31 @@ export default function QuizSetupPage() {
             {cloudPlatforms.map((platform) => (
               <div
                 key={platform.id}
-                onClick={() => platform.available && handlePlatformSelection(platform.id)}
-                className={`border rounded-xl p-6 cursor-pointer transition-all duration-200 ${
-                  selectedPlatform === platform.id
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 ring-2 ring-blue-200 dark:ring-blue-800'
+                onClick={() => handlePlatformSelection(platform.id)}
+                className={`border rounded-xl p-6 transition-all duration-200 ${
+                  selectedPlatform === platform.id && platform.available
+                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 ring-2 ring-blue-200 dark:ring-blue-800 cursor-pointer'
                     : platform.available
-                    ? 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md'
-                    : 'border-gray-200 dark:border-gray-700 opacity-50 cursor-not-allowed'
+                    ? 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md cursor-pointer'
+                    : 'border-gray-200 dark:border-gray-700 opacity-60 cursor-pointer hover:opacity-70'
                 }`}
               >
                 <div className="text-center">
-                  <div className="text-4xl mb-3">{platform.icon}</div>
+                  <div className="mb-3 flex justify-center">
+                    <img 
+                      src={platform.icon} 
+                      alt={`${platform.name} logo`}
+                      className="w-16 h-16 object-contain"
+                    />
+                  </div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">
                     {platform.name}
                   </h3>
-                  {!platform.available && (
+                  {platform.available ? (
+                    <span className="text-sm text-muted-foreground">
+                      {platform.examCount} exam{platform.examCount !== 1 ? 's' : ''} available
+                    </span>
+                  ) : (
                     <span className="text-sm text-muted-foreground">
                       Coming Soon
                     </span>

@@ -160,6 +160,56 @@ export const examTopics = [
             ]
           }
         ]
+      },
+      {
+        id: "data-engineer-associate",
+        name: "AWS Data Engineer Associate",
+        level: "Associate",
+        description: "Demonstrates expertise in designing, implementing, and maintaining data engineering solutions on AWS",
+        duration: "170 minutes",
+        questionCount: "85 questions (65 scored, 20 unscored)",
+        examCode: "DEA-C01",
+        passingScore: 720,
+        categories: [
+          "Data Ingestion and Transformation (34%)",
+          "Data Store Management (26%)",
+          "Data Operations and Support (22%)",
+          "Data Security and Governance (18%)"
+        ],
+        detailedSyllabus: [
+          {
+            domain: "Data Ingestion and Transformation (34%)",
+            topics: [
+              "Implement data ingestion solutions",
+              "Transform and process data",
+              "Orchestrate data pipelines"
+            ]
+          },
+          {
+            domain: "Data Store Management (26%)",
+            topics: [
+              "Choose appropriate data stores",
+              "Understand data cataloging systems",
+              "Manage data lifecycle"
+            ]
+          },
+          {
+            domain: "Data Operations and Support (22%)",
+            topics: [
+              "Automate data processing systems",
+              "Monitor and troubleshoot data pipelines",
+              "Optimize cost and performance"
+            ]
+          },
+          {
+            domain: "Data Security and Governance (18%)",
+            topics: [
+              "Apply authentication and authorization",
+              "Ensure data encryption and privacy",
+              "Implement monitoring and auditing"
+            ]
+          }
+        ]
       }
     ]
   }
