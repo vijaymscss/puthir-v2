@@ -8,12 +8,12 @@ export default function AboutPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              About AWS Quiz Platform
+              About Cloud Quiz Platform
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Comprehensive AI-powered quiz platform for all AWS certification levels - 
-            from Foundational to Professional certifications
+            Comprehensive AI-powered quiz platform for multiple cloud certification providers including AWS, Azure, and GCP - 
+            from Foundational to Professional levels
           </p>
         </div>
 
@@ -27,13 +27,13 @@ export default function AboutPage() {
               <h2 className="text-2xl font-semibold">Our Mission</h2>
             </div>
             <p className="text-muted-foreground mb-4 text-lg leading-relaxed">
-              We empower aspiring cloud professionals to master AWS technologies through intelligent, 
-              AI-generated practice questions. Our platform covers the complete AWS certification journey, 
+              We empower aspiring cloud professionals to master cloud technologies across multiple platforms through intelligent, 
+              AI-generated practice questions. Our platform covers comprehensive certification journeys for AWS, Azure, and GCP, 
               from foundational concepts to professional-level expertise.
             </p>
             <p className="text-muted-foreground">
-              Whether you&apos;re starting with Cloud Practitioner or advancing to Solutions Architect and Developer 
-              certifications, we provide personalized learning experiences that adapt to your knowledge level.
+              Whether you&apos;re starting with foundational certifications or advancing to specialized roles like Solutions Architect, 
+              Developer, or Data Engineer, we provide personalized learning experiences that adapt to your knowledge level across different cloud platforms.
             </p>
           </div>
 
@@ -107,64 +107,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Certification Coverage Section */}
-          <div className="bg-card rounded-xl p-8 border shadow-sm">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-red-600 flex items-center justify-center text-white text-xl">
-                📚
-              </div>
-              <h2 className="text-2xl font-semibold">AWS Certification Coverage</h2>
-            </div>
-            <div className="grid lg:grid-cols-3 gap-6">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 rounded-lg p-6 border">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
-                    F
-                  </div>
-                  <h3 className="font-semibold">Foundational Level</h3>
-                </div>
-                <h4 className="font-medium mb-2">AWS Cloud Practitioner</h4>
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Cloud Concepts (24%)</li>
-                  <li>• Security & Compliance (30%)</li>
-                  <li>• Cloud Technology & Services (34%)</li>
-                  <li>• Billing, Pricing & Support (12%)</li>
-                </ul>
-              </div>
-              
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 rounded-lg p-6 border">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">
-                    A
-                  </div>
-                  <h3 className="font-semibold">Associate Level</h3>
-                </div>
-                <h4 className="font-medium mb-2">Developer Associate</h4>
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Development with AWS Services (32%)</li>
-                  <li>• Security (26%)</li>
-                  <li>• Deployment (24%)</li>
-                  <li>• Troubleshooting & Optimization (18%)</li>
-                </ul>
-              </div>
-              
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 rounded-lg p-6 border">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white text-sm font-bold">
-                    A
-                  </div>
-                  <h3 className="font-semibold">Associate Level</h3>
-                </div>
-                <h4 className="font-medium mb-2">Solutions Architect Associate</h4>
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Design Secure Architectures (30%)</li>
-                  <li>• Design Resilient Architectures (26%)</li>
-                  <li>• Design High-Performing Architectures (24%)</li>
-                  <li>• Design Cost-Optimized Architectures (20%)</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+  
 
           {/* Technology Stack Section */}
           <div className="bg-card rounded-xl p-8 border shadow-sm">
@@ -202,9 +145,9 @@ export default function AboutPage() {
         {/* Call to Action */}
         <div className="text-center mt-12">
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 rounded-xl p-8 mb-8">
-            <h3 className="text-2xl font-bold mb-4">Ready to Start Your AWS Journey?</h3>
+            <h3 className="text-2xl font-bold mb-4">Ready to Start Your Cloud Certification Journey?</h3>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Join thousands of cloud professionals who have advanced their careers with our comprehensive AWS certification preparation platform.
+              Join thousands of cloud professionals who have advanced their careers with our comprehensive multi-platform certification preparation platform covering AWS, Azure, and GCP.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/quiz-setup">

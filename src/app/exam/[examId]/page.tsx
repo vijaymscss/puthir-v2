@@ -3,6 +3,7 @@
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { examTopics } from "@/utils/constants";
 import { useState, useEffect, Suspense } from "react";
 
@@ -220,7 +221,13 @@ function ExamDetailsContent() {
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-2xl">{provider.icon}</span>
+                <Image 
+                  src={provider.icon} 
+                  alt={`${provider.name} logo`}
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                />
                 <h1 className="text-3xl font-bold text-foreground">{exam.name}</h1>
                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                   exam.level === 'Foundational' || exam.level === 'Fundamentals' 

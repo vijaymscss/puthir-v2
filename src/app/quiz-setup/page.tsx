@@ -35,8 +35,9 @@ const checkPlatformAvailability = (platformId: string): { available: boolean; ex
         const awsExams = examTopics.find(topic => topic.id === "aws")?.examTypes || [];
         return { available: awsExams.length > 0, examCount: awsExams.length };
       case 'azure':
-        // Currently no azure data available
-        return { available: false, examCount: 0 };
+        // Check Azure data from examTopics
+        const azureExams = examTopics.find(topic => topic.id === "azure")?.examTypes || [];
+        return { available: azureExams.length > 0, examCount: azureExams.length };
       case 'gcp':
         // Currently no GCP data available
         return { available: false, examCount: 0 };
@@ -98,8 +99,6 @@ export default function QuizSetupPage() {
       router.push(`/quiz-setup/customize?exam=${selectedExam}`);
     }
   };
-
-  const awsExams = examTopics.find(topic => topic.id === "aws")?.examTypes || [];
 
   return (
     <main className="min-h-screen bg-background py-12">
@@ -177,14 +176,14 @@ export default function QuizSetupPage() {
           )}
         </div>
 
-        {/* Step 2: Exam Selection (Only show if AWS is selected) */}
-        {selectedPlatform === "aws" && (
+        {/* Step 2: Exam Selection (Show for any selected platform with available exams) */}
+        {selectedPlatform && cloudPlatforms.find(p => p.id === selectedPlatform)?.available && (
           <div className="mb-12">
             <h2 className="text-2xl font-semibold text-foreground mb-6">
-              2. Select AWS Certification Exam
+              2. Select {cloudPlatforms.find(p => p.id === selectedPlatform)?.name} Certification Exam
             </h2>
             <div className="grid gap-4">
-              {awsExams.map((exam) => (
+              {(examTopics.find(topic => topic.id === selectedPlatform)?.examTypes || []).map((exam) => (
                 <div
                   key={exam.id}
                   onClick={() => handleExamSelection(exam.id)}
@@ -234,7 +233,7 @@ export default function QuizSetupPage() {
         )}
 
         {/* Step 3: Continue Button */}
-        {selectedPlatform === "aws" && selectedExam && (
+        {selectedPlatform && selectedExam && cloudPlatforms.find(p => p.id === selectedPlatform)?.available && (
           <div className="mb-12">
             <h2 className="text-2xl font-semibold text-foreground mb-6">
               3. Ready to Continue

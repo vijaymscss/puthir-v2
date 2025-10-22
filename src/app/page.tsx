@@ -35,7 +35,7 @@ export default function Home() {
               <p className={`text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed transition-all duration-1000 ease-out delay-400 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>
-                Technical quizzes help learners deepen their knowledge of AWS concepts and cloud technologies in an interactive, engaging way — encouraging practical understanding, problem-solving skills, and continuous learning to better prepare for certification exams.
+                Technical quizzes help learners deepen their knowledge of cloud concepts and technologies across multiple platforms including AWS, Azure, and GCP in an interactive, engaging way — encouraging practical understanding, problem-solving skills, and continuous learning to better prepare for certification exams.
               </p>
             </div>
             

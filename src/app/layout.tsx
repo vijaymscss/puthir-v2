@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Puthir - An AI Quiz App",
-  description: "Test your knowledge with our AI-powered quiz platform",
+  title: "Puthir - Cloud Certification Quiz Platform",
+  description: "Master AWS, Azure, and GCP certifications with our AI-powered quiz platform. Practice exams for Cloud Practitioner, Solutions Architect, Developer, and more.",
 };
 
 export default function RootLayout({

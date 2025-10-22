@@ -115,10 +115,10 @@ function QuizContent() {
           let suffix = '';
           
           if (isUserAnswer && isCorrectAnswer) {
-            suffix = ' [ YOUR ANSWER -> CORRECT ]';
+            suffix = ' [ YOUR ANSWER ]';
             pdf.setTextColor(0, 150, 0);
           } else if (isUserAnswer && !isCorrectAnswer) {
-            suffix = ' [ YOUR ANSWER -> INCORRECT ]';
+            suffix = ' [ YOUR ANSWER ]';
             pdf.setTextColor(200, 0, 0);
           } else if (isCorrectAnswer) {
             suffix = ' [ CORRECT ANSWER ]';

@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { examTopics } from "@/utils/constants";
 
@@ -145,7 +146,13 @@ function QuizCustomizeContent() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="text-3xl">{provider.icon}</span>
+            <Image 
+              src={provider.icon} 
+              alt={`${provider.name} logo`}
+              width={48}
+              height={48}
+              className="object-contain"
+            />
             <h1 className="text-4xl font-bold text-foreground">
               {exam.name}
             </h1>

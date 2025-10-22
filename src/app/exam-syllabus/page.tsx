@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Link from "next/link";
+import Image from "next/image";
 import { examTopics } from "@/utils/constants";
 import { ChevronLeft, Clock, FileText, Target, BookOpen, ArrowLeft, CheckCircle } from "lucide-react";
 
@@ -153,28 +155,64 @@ export default function ExamSyllabusPage() {
           </Link>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              AWS Certification
+              Cloud Certification
             </span>{" "}
             Exam Syllabus
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl">
-            Explore comprehensive AWS certification exam details, including syllabus breakdown, 
-            exam format, and key topics. Choose an exam to start your preparation journey.
+            Explore comprehensive certification exam details from multiple cloud providers including AWS, Azure, and GCP. 
+            Get detailed syllabus breakdown, exam format, and key topics for your certification journey across different platforms.
           </p>
         </div>
 
-        {/* Exam Cards Grid */}
-        <div className="grid gap-8">
+        {/* Certification Providers Accordion */}
+        <Accordion type="single" collapsible className="w-full space-y-4">
           {examTopics.map((provider) => (
-            <div key={provider.id} className="space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">{provider.icon}</span>
-                <h2 className="text-2xl font-bold text-foreground">{provider.name}</h2>
-              </div>
-              <p className="text-muted-foreground">{provider.description}</p>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {provider.examTypes.map((exam) => (
+            <AccordionItem key={provider.id} value={provider.id} className="border rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors bg-white dark:bg-gray-800">
+                <div className="flex items-center gap-4 w-full">
+                  <Image 
+                    src={provider.icon} 
+                    alt={`${provider.name} logo`}
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                  <div className="text-left flex-1">
+                    <h2 className="text-xl font-bold text-foreground">{provider.name}</h2>
+                    <p className="text-sm text-muted-foreground mt-1">{provider.description}</p>
+                  </div>
+                  <div className="text-right">
+                    {provider.examTypes.length > 0 ? (
+                      <div className="flex items-center gap-2 ">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+                          ✓ {provider.examTypes.length} exam{provider.examTypes.length !== 1 ? 's' : ''}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100">
+                        🚧 Coming Soon
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-6 pb-6 bg-white dark:bg-gray-800">
+                {provider.examTypes.length > 0 ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between border-b p-2 mt-2">
+                      <p className="text-sm text-muted-foreground">
+                        Available certification tracks for {provider.name}
+                      </p>
+                      <Link 
+                        href="/quiz-setup" 
+                        className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+                      >
+                        Start Practice →
+                      </Link>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {provider.examTypes.map((exam) => (
                   <Card 
                     key={exam.id}
                     className="transition-all duration-300 hover:shadow-lg hover:transform hover:scale-[1.01]"
@@ -228,11 +266,18 @@ export default function ExamSyllabusPage() {
 
                     </CardContent>
                   </Card>
-                ))}
-              </div>
-            </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-muted-foreground">Certification exams for this platform are coming soon!</p>
+                  </div>
+                )}
+              </AccordionContent>
+            </AccordionItem>
           ))}
-        </div>
+        </Accordion>
 
         {/* Bottom CTA */}
         
