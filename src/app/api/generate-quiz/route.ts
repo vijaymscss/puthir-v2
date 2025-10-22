@@ -18,6 +18,15 @@ interface QuizQuestion {
   topic: string;
 }
 
+interface ParsedQuestion {
+  question?: string;
+  options?: string[];
+  correctAnswer?: number | number[];
+  explanation?: string;
+  difficulty?: string;
+  topic?: string;
+}
+
 // Fallback function to generate sample questions if AI fails
 function generateFallbackQuestions(examName: string, topics: string[], count: number): QuizQuestion[] {
   const awsQuestions: QuizQuestion[] = [
@@ -132,14 +141,7 @@ function generateFallbackQuestions(examName: string, topics: string[], count: nu
   return questions;
 }
 
-// Call counter to track duplicate calls (reset on server restart)
-let callCounter = 0;
-
 export async function POST(request: NextRequest) {
-  callCounter++;
-  
-  // Add a small delay to detect rapid duplicate calls
-  const now = Date.now();
   
   try {
     const body: QuizRequest = await request.json();
@@ -240,7 +242,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Validate and format the questions
-      const aiQuestions: QuizQuestion[] = questionsJson.map((q: any, index: number) => ({
+      const aiQuestions: QuizQuestion[] = questionsJson.map((q: ParsedQuestion, index: number) => ({
         id: index + 1,
         question: q.question || `Question ${index + 1}`,
         options: Array.isArray(q.options) ? q.options : ["Option A", "Option B", "Option C", "Option D"],

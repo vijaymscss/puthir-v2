@@ -7,6 +7,24 @@ import Link from "next/link";
 import { examTopics } from "@/utils/constants";
 import { ChevronLeft, Clock, FileText, Target, BookOpen, ArrowLeft, CheckCircle } from "lucide-react";
 
+interface ExamDomain {
+  domain: string;
+  topics: string[];
+}
+
+interface ExamType {
+  id: string;
+  name: string;
+  level: string;
+  description: string;
+  duration: string;
+  questionCount: string;
+  examCode?: string;
+  passingScore?: number;
+  categories: string[];
+  detailedSyllabus?: ExamDomain[];
+}
+
 export default function ExamSyllabusPage() {
   const [selectedExam, setSelectedExam] = useState<string | null>(null);
   const [viewingDetailedSyllabus, setViewingDetailedSyllabus] = useState<string | null>(null);
@@ -76,7 +94,7 @@ export default function ExamSyllabusPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-foreground mb-6">Detailed Exam Domains</h2>
             
-            {(detailedExam as any).detailedSyllabus?.map((domain: any, index: number) => (
+            {detailedExam.detailedSyllabus?.map((domain: ExamDomain, index: number) => (
               <Card key={index} className="overflow-hidden">
                 <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
                   <CardTitle className="text-lg font-semibold text-foreground">

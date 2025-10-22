@@ -32,7 +32,7 @@ export default function AboutPage() {
               from foundational concepts to professional-level expertise.
             </p>
             <p className="text-muted-foreground">
-              Whether you're starting with Cloud Practitioner or advancing to Solutions Architect and Developer 
+              Whether you&apos;re starting with Cloud Practitioner or advancing to Solutions Architect and Developer 
               certifications, we provide personalized learning experiences that adapt to your knowledge level.
             </p>
           </div>

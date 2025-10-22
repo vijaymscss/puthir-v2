@@ -6,6 +6,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { examTopics } from "@/utils/constants";
 
+interface ExamType {
+  id: string;
+  name: string;
+  level: string;
+  description: string;
+  duration: string;
+  questionCount: string;
+  examCode?: string;
+  passingScore?: number;
+  categories: string[];
+}
+
 const cloudPlatforms = [
   { id: "aws", name: "AWS (Amazon Web Services)", icon: "☁️", available: true },
   { id: "azure", name: "Microsoft Azure", icon: "🔵", available: false },
@@ -146,7 +158,7 @@ export default function QuizSetupPage() {
                       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                         <span>📝 {exam.questionCount}</span>
                         <span>⏱️ {exam.duration}</span>
-                        <span>🎯 {(exam as any).examCode}</span>
+                        <span>🎯 {exam.examCode}</span>
                       </div>
                     </div>
                     {selectedExam === exam.id && (

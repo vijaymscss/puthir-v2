@@ -111,7 +111,7 @@ export default function QuizPage() {
           const isUserAnswer = userAnswerIndices.includes(optionIndex);
           const isCorrectAnswer = correctAnswerIndices.includes(optionIndex);
           
-          let prefix = `${String.fromCharCode(65 + optionIndex)}. `;
+          const prefix = `${String.fromCharCode(65 + optionIndex)}. `;
           let suffix = '';
           
           if (isUserAnswer && isCorrectAnswer) {

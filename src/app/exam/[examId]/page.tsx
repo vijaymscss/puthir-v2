@@ -6,6 +6,22 @@ import Link from "next/link";
 import { examTopics } from "@/utils/constants";
 import { useState, useEffect } from "react";
 
+interface ExamType {
+  id: string;
+  name: string;
+  level: string;
+  description: string;
+  duration: string;
+  questionCount: string;
+  examCode?: string;
+  passingScore?: number;
+  categories: string[];
+  detailedSyllabus?: Array<{
+    domain: string;
+    topics: string[];
+  }>;
+}
+
 export default function ExamDetailsPage() {
   const params = useParams();
   const router = useRouter();
@@ -226,16 +242,16 @@ export default function ExamDetailsPage() {
                   <span className="w-3 h-3 bg-purple-500 rounded-full"></span>
                   <strong>Questions:</strong> {exam.questionCount}
                 </span>
-                {(exam as any).examCode && (
+                {exam.examCode && (
                   <span className="flex items-center gap-2">
                     <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-                    <strong>Exam Code:</strong> {(exam as any).examCode}
+                    <strong>Exam Code:</strong> {exam.examCode}
                   </span>
                 )}
-                {(exam as any).passingScore && (
+                {exam.passingScore && (
                   <span className="flex items-center gap-2">
                     <span className="w-3 h-3 bg-red-500 rounded-full"></span>
-                    <strong>Passing Score:</strong> {(exam as any).passingScore}/1000
+                    <strong>Passing Score:</strong> {exam.passingScore}/1000
                   </span>
                 )}
                 <span className="flex items-center gap-2">

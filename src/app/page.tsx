@@ -1,15 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { examTopics } from "@/utils/constants";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);

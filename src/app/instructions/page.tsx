@@ -140,7 +140,7 @@ export default function InstructionsPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                <span>Use the "Next" and "Previous" buttons to navigate between questions</span>
+                <span>Use the &quot;Next&quot; and &quot;Previous&quot; buttons to navigate between questions</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
