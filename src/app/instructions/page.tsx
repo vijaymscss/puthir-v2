@@ -51,9 +51,6 @@ function InstructionsContent() {
   };
 
   const getBackUrl = () => {
-    if (examId && quizType) {
-      return `/quiz-setup/customize?exam=${examId}`;
-    }
     return "/quiz-setup";
   };
 

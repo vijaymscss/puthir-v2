@@ -700,33 +700,51 @@ function QuizContent() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {question.options.map((option: string, index: number) => (
-                    <button
-                      key={index}
-                      onClick={() => handleAnswerSelect(index)}
-                      className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
-                        userAnswers.includes(index)
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 text-blue-800 dark:text-blue-200'
-                          : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 bg-card hover:bg-blue-50 dark:hover:bg-blue-950'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                  {question.options.map((option: string, index: number) => {
+                    const isMultipleChoice = typeof question.correctAnswer === "number";
+                    
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => handleAnswerSelect(index)}
+                        className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
                           userAnswers.includes(index)
-                            ? 'border-blue-500 bg-blue-500'
-                            : 'border-gray-400'
-                        }`}>
-                          {userAnswers.includes(index) && (
-                            <span className="text-white text-xs">✓</span>
+                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 text-blue-800 dark:text-blue-200'
+                            : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 bg-card hover:bg-blue-50 dark:hover:bg-blue-950'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {isMultipleChoice ? (
+                            /* Radio button style - circle */
+                            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                              userAnswers.includes(index)
+                                ? 'border-blue-500 bg-blue-500'
+                                : 'border-gray-400'
+                            }`}>
+                              {userAnswers.includes(index) && (
+                                <div className="w-2 h-2 bg-white rounded-full"></div>
+                              )}
+                            </div>
+                          ) : (
+                            /* Checkbox style - square */
+                            <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                              userAnswers.includes(index)
+                                ? 'border-blue-500 bg-blue-500'
+                                : 'border-gray-400'
+                            }`}>
+                              {userAnswers.includes(index) && (
+                                <span className="text-white text-xs">✓</span>
+                              )}
+                            </div>
                           )}
+                          <span className="font-medium text-gray-800 dark:text-gray-200">
+                            {option.match(/^[A-D]\.\s*/) ? '' : `${String.fromCharCode(65 + index)}. `}
+                          </span>
+                          <span>{option.replace(/^[A-D]\.\s*/, '')}</span>
                         </div>
-                        <span className="font-medium text-gray-800 dark:text-gray-200">
-                          {option.match(/^[A-D]\.\s*/) ? '' : `${String.fromCharCode(65 + index)}. `}
-                        </span>
-                        <span>{option.replace(/^[A-D]\.\s*/, '')}</span>
-                      </div>
-                    </button>
-                  ))}
+                      </button>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
