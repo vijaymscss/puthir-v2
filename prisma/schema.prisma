@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model UserDetails {
+  id             String   @id @default(cuid())
+  emailId        String   @unique
+  clerkId        String   @unique
+  firstName      String?
+  lastName       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  freeExamCount  Int      @default(0)
+  paidExamCount  Int      @default(0)
+
+  // Relations
+  examHistory    ExamHistory[]
+
+  @@map("userDetails")
+}
+
+model ExamHistory {
+  id                    String   @id @default(cuid())
+  emailId               String
+  testId                String
+  certificateName       String
+  certificateProvider   String
+  certificateCode       String
+  testDateTime          DateTime
+  score                 Int
+  percentage            Float
+  resultSummary         String   @db.Text // Store complete result data as text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  user                  UserDetails @relation(fields: [emailId], references: [emailId], onDelete: Cascade)
+
+  @@map("examHistory")
+}
+
+model ContactInfo {
+  contactId      String   @id @default(cuid())
+  emailId        String
+  name           String
+  phoneNo        String?  // Optional phone number
+  subject        String
+  message        String   @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("contactInfo")
+}

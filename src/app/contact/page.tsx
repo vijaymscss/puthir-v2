@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import ContactForm from '@/components/forms/ContactForm';
 import Link from "next/link";
 
 export default function ContactPage() {
@@ -15,43 +16,9 @@ export default function ContactPage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-card rounded-xl p-8 border shadow-sm">
-            <h2 className="text-2xl font-semibold mb-6">Send us a message</h2>
-            <form className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Name</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Email</label>
-                <input
-                  type="email"
-                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Subject</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                  placeholder="How can we help?"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Message</label>
-                <textarea
-                  rows={4}
-                  className="w-full px-3 py-2 border border-input rounded-md bg-background resize-none"
-                  placeholder="Tell us more about your inquiry..."
-                />
-              </div>
-              <Button className="w-full">Send Message</Button>
-            </form>
+          <div >
+            
+            <ContactForm />
           </div>
 
           <div className="space-y-8">
