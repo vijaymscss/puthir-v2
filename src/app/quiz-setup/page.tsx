@@ -333,12 +333,10 @@ export default function QuizSetupPage() {
         {/* Step 1: Cloud Platform Selection */}
         <div className="mb-10 mt-5">
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex items-center justify-center w-6 h-6 bg-blue-500 rounded-full text-white font-semibold text-sm">
-              1
-            </div>
+            
             <div>
-              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">
-                Select Cloud Platform
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">
+                1. Select Cloud Platform
               </h2>
               <p className="text-slate-600 dark:text-slate-400 text-sm">
                 Choose your preferred cloud service provider
@@ -414,12 +412,10 @@ export default function QuizSetupPage() {
         {selectedPlatform && cloudPlatforms.find(p => p.id === selectedPlatform)?.available && (
           <div className="mb-10 mt-20">
             <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center justify-center w-6 h-6 bg-blue-500 rounded-full text-white font-semibold text-sm">
-                2
-              </div>
+              
               <div>
-                <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">
-                  Select {cloudPlatforms.find(p => p.id === selectedPlatform)?.name} Certification
+                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">
+                  2. Select {cloudPlatforms.find(p => p.id === selectedPlatform)?.name} Certification
                 </h2>
                 <p className="text-slate-600 dark:text-slate-400 text-sm">
                   Choose the certification exam you want to practice for
@@ -482,12 +478,10 @@ export default function QuizSetupPage() {
         {selectedPlatform && selectedExam && cloudPlatforms.find(p => p.id === selectedPlatform)?.available && (
           <div className="mb-10 mt-20">
             <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center justify-center w-6 h-6 bg-blue-500 rounded-full text-white font-semibold text-sm">
-                3
-              </div>
+              
               <div>
-                <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">
-                  Choose Your Quiz Type
+                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">
+                  3. Choose Your Quiz Type
                 </h2>
                 <p className="text-slate-600 dark:text-slate-400 text-sm">
                   Select between complete coverage or focused practice
