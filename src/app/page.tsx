@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
@@ -43,15 +44,32 @@ export default function Home() {
         <div className={`flex flex-col sm:flex-row gap-6 justify-center mt-16 transition-all duration-1000 ease-out delay-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <Link href="/quiz-setup">
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:text-white"
-            >
-              Start Quiz
-            </Button>
-          </Link>
+          {/* Quiz Setup - Protected Route */}
+          <SignedIn>
+            <Link href="/quiz-setup">
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:text-white"
+              >
+                Start Quiz
+              </Button>
+            </Link>
+          </SignedIn>
+          
+          <SignedOut>
+            <SignInButton>
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:text-white"
+              >
+                Sign in to Start Quiz
+              </Button>
+            </SignInButton>
+          </SignedOut>
+          
+          {/* Exam Syllabus - Public Route */}
           <Link href="/exam-syllabus">
             <Button 
               variant="outline" 

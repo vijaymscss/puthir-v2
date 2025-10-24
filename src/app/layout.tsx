@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/app/Navbar";
 import { ThemeProvider } from "@/components/app/ThemeProvider";
 import QueryProvider from "@/providers/query-provider";
+import ClerkProviderClient from "@/components/app/ClerkProviderClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,17 +31,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <QueryProvider>
-            <Navbar />
-            {children}
-          </QueryProvider>
-        </ThemeProvider>
+        <ClerkProviderClient>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <QueryProvider>
+              <div className="relative">
+                <Navbar />
+                {children}
+              </div>
+            </QueryProvider>
+          </ThemeProvider>
+        </ClerkProviderClient>
       </body>
     </html>
   );
