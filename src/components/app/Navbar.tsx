@@ -43,6 +43,14 @@ export default function Navbar() {
               >
                 Contact
               </Link>
+              <SignedIn>
+                <Link 
+                  href="/exam-history" 
+                  className="text-foreground hover:text-primary transition-colors duration-200"
+                >
+                  Exam History
+                </Link>
+              </SignedIn>
               <ThemeToggle />
               <SignedOut>
                 <div className="flex items-center gap-2">
@@ -96,6 +104,15 @@ export default function Navbar() {
               >
                 Contact
               </Link>
+              <SignedIn>
+                <Link 
+                  href="/exam-history" 
+                  className="block px-3 py-2 text-foreground hover:text-primary transition-colors duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Exam History
+                </Link>
+              </SignedIn>
               <div className="px-3 py-2 space-y-2">
                 <SignedOut>
                   <SignInButton>

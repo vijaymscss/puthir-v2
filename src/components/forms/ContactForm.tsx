@@ -56,7 +56,10 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+
+
+    <Card className="bg-gradient-to-br from-white/90 to-gray-50/40 dark:from-slate-800/80 dark:to-slate-900/60 rounded-xl p-8 border s
+    hadow-sm hover:shadow-md transition-all duration-300 animate-fade-in-up w-full max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center flex items-center justify-center gap-2">
           <MessageSquare className="h-6 w-6 text-blue-600" />
