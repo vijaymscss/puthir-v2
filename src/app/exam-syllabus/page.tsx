@@ -33,13 +33,13 @@ export default function ExamSyllabusPage() {
   const getBadgeClass = (level: string) => {
     switch (level.toLowerCase()) {
       case "foundational":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300";
       case "associate":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+        return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300";
       case "professional":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+        return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+        return "bg-gray-100 text-gray-800 dark:bg-slate-800/50 dark:text-slate-300";
     }
   };
 
@@ -51,16 +51,16 @@ export default function ExamSyllabusPage() {
   // If viewing detailed syllabus, show that view
   if (viewingDetailedSyllabus && detailedExam) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950">
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Header */}
           <div className="mb-8">
             <Button 
               onClick={() => setViewingDetailedSyllabus(null)}
               variant="ghost" 
-              className="mb-4 text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+              className="mb-4 text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-all duration-200 hover:gap-3 inline-flex items-center"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="w-4 h-4 mr-2 transition-transform duration-200 hover:-translate-x-1" />
               Back to All Exams
             </Button>
             
@@ -73,7 +73,7 @@ export default function ExamSyllabusPage() {
               </div>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
+            <div className="grid md:grid-cols-3 gap-4 justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-blue-500" />
                 <span className="font-medium">{detailedExam.duration}</span>
@@ -96,8 +96,12 @@ export default function ExamSyllabusPage() {
             <h2 className="text-2xl font-bold text-foreground mb-6">Detailed Exam Domains</h2>
             
             {detailedExam.detailedSyllabus?.map((domain: ExamDomain, index: number) => (
-              <Card key={index} className="overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
+              <Card 
+                key={index} 
+                className="overflow-hidden bg-gradient-to-br from-white/90 to-gray-50/40 dark:from-slate-800/80 dark:to-slate-900/60 border-gray-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 animate-fade-in-up"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <CardHeader className="bg-gradient-to-r from-blue-50/80 to-purple-50/80 dark:from-slate-800/70 dark:to-slate-700/70">
                   <CardTitle className="text-lg font-semibold text-foreground">
                     {domain.domain}
                   </CardTitle>
@@ -114,7 +118,7 @@ export default function ExamSyllabusPage() {
                 </CardContent>
               </Card>
             )) || (
-              <Card>
+              <Card className="bg-gradient-to-br from-white to-gray-50/50 dark:from-slate-800 dark:to-slate-900 border-gray-200 dark:border-slate-700">
                 <CardContent className="pt-6">
                   <p className="text-muted-foreground text-center">
                     Detailed syllabus information is being updated. Please check back soon.
@@ -125,9 +129,9 @@ export default function ExamSyllabusPage() {
           </div>
 
           {/* Action Buttons */}
-          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.8s' }}>
             <Link href={`/quiz-setup?exam=${detailedExam.id}`}>
-              <Button size="lg" className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+              <Button size="lg" className="bg-gradient-to-r from-green-600/90 to-blue-600/90 hover:from-green-700/90 hover:to-blue-700/90 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20 transform hover:scale-105">
                 Start Practice Quiz
               </Button>
             </Link>
@@ -135,6 +139,7 @@ export default function ExamSyllabusPage() {
               onClick={() => setViewingDetailedSyllabus(null)}
               variant="outline" 
               size="lg"
+              className="transition-all duration-300 hover:shadow-lg transform hover:scale-105"
             >
               Browse Other Exams
             </Button>
@@ -145,16 +150,16 @@ export default function ExamSyllabusPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950">
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="mb-8">
-          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4">
-            <ChevronLeft className="w-4 h-4 mr-1" />
+        <div className="mb-8 animate-fade-in">
+          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 transition-colors duration-200 hover:gap-2">
+            <ChevronLeft className="w-4 h-4 mr-1 transition-transform duration-200" />
             Back to Home
           </Link>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600/90 to-purple-600/90 bg-clip-text text-transparent animate-gradient">
               Cloud Certification
             </span>{" "}
             Exam Syllabus
@@ -167,37 +172,42 @@ export default function ExamSyllabusPage() {
 
         {/* Certification Providers Accordion */}
         <Accordion type="single" collapsible className="w-full space-y-4">
-          {examTopics.map((provider) => (
-            <AccordionItem key={provider.id} value={provider.id} className="border rounded-lg bg-white dark:bg-gray-800 shadow-sm">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors bg-white dark:bg-gray-800">
+          {examTopics.map((provider, index) => (
+            <AccordionItem 
+              key={provider.id} 
+              value={provider.id} 
+              className="border rounded-lg bg-gradient-to-br from-white/80 to-gray-50/60 dark:from-slate-900/90 dark:to-slate-800/70 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in-up"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-gradient-to-br hover:from-gray-50/80 hover:to-gray-100/60 dark:hover:from-slate-800/80 dark:hover:to-slate-700/60 transition-all duration-300 bg-gradient-to-br from-white/80 to-gray-50/60 dark:from-slate-900/90 dark:to-slate-800/70 group">
                 <div className="flex items-center gap-4 w-full">
                   <Image 
                     src={provider.icon} 
                     alt={`${provider.name} logo`}
                     width={48}
                     height={48}
-                    className="object-contain"
+                    className="object-contain transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="text-left flex-1">
-                    <h2 className="text-xl font-bold text-foreground">{provider.name}</h2>
+                    <h2 className="text-xl font-bold text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{provider.name}</h2>
                     <p className="text-sm text-muted-foreground mt-1">{provider.description}</p>
                   </div>
                   <div className="text-right">
                     {provider.examTypes.length > 0 ? (
                       <div className="flex items-center gap-2 ">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
                           ✓ {provider.examTypes.length} exam{provider.examTypes.length !== 1 ? 's' : ''}
                         </span>
                       </div>
                     ) : (
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300">
                         🚧 Coming Soon
                       </span>
                     )}
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-6 pb-6 bg-white dark:bg-gray-800">
+              <AccordionContent className="px-6 pb-6 bg-gradient-to-br from-white/70 to-gray-50/50 dark:from-slate-900/80 dark:to-slate-800/60 animate-fade-in">
                 {provider.examTypes.length > 0 ? (
                   <div className="space-y-4">
                     <div className="flex items-center justify-between border-b p-2 mt-2">
@@ -206,26 +216,27 @@ export default function ExamSyllabusPage() {
                       </p>
                       <Link 
                         href="/quiz-setup" 
-                        className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+                        className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-all duration-200 hover:gap-1 inline-flex items-center"
                       >
-                        Start Practice →
+                        Start Practice <span className="transition-transform duration-200 hover:translate-x-1">→</span>
                       </Link>
                     </div>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {provider.examTypes.map((exam) => (
+                      {provider.examTypes.map((exam, examIndex) => (
                   <Card 
                     key={exam.id}
-                    className="transition-all duration-300 hover:shadow-lg hover:transform hover:scale-[1.01]"
+                    className="transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:transform hover:scale-[1.02] bg-gradient-to-br from-white/90 to-gray-50/40 dark:from-slate-800/80 dark:to-slate-900/60 border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 animate-fade-in-up group"
+                    style={{ animationDelay: `${(examIndex + 1) * 150}ms` }}
                   >
                     <CardHeader className="pb-4">
                       <div className="flex justify-between items-start mb-2">
-                        <CardTitle className="text-lg font-semibold">{exam.name}</CardTitle>
-                        <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold shrink-0 ${getBadgeClass(exam.level)}`}>
+                        <CardTitle className="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{exam.name}</CardTitle>
+                        <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold shrink-0 transition-transform duration-200 group-hover:scale-105 ${getBadgeClass(exam.level)}`}>
                           {exam.level}
                         </div>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <FileText className="w-4 h-4" />
+                        <FileText className="w-4 h-4 transition-colors duration-200 group-hover:text-blue-500" />
                         <span>{exam.examCode}</span>
                       </div>
                     </CardHeader>
@@ -257,7 +268,7 @@ export default function ExamSyllabusPage() {
                       <div className="pt-4">
                         <Button 
                           onClick={() => setViewingDetailedSyllabus(exam.id)}
-                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                          className="w-full bg-gradient-to-r from-blue-600/90 to-purple-600/90 hover:from-blue-700/90 hover:to-purple-700/90 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 transform hover:scale-[1.02]"
                         >
                           View Detailed Syllabus
                         </Button>

@@ -4,6 +4,13 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/app/ThemeToggle";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,10 +43,27 @@ export default function Navbar() {
               >
                 Contact
               </Link>
+              <SignedIn>
+                <Link 
+                  href="/exam-history" 
+                  className="text-foreground hover:text-primary transition-colors duration-200"
+                >
+                  Exam History
+                </Link>
+              </SignedIn>
               <ThemeToggle />
-              <Button variant="default" size="sm">
-                Sign In
-              </Button>
+              <SignedOut>
+                <div className="flex items-center gap-2">
+                  <SignInButton>
+                    <Button variant="default" size="sm">
+                      Sign In
+                    </Button>
+                  </SignInButton>
+                </div>
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
             </div>
 
             {/* Mobile controls */}
@@ -80,10 +104,33 @@ export default function Navbar() {
               >
                 Contact
               </Link>
-              <div className="px-3 py-2">
-                <Button variant="default" size="sm" className="w-full">
-                  Sign In
-                </Button>
+              <SignedIn>
+                <Link 
+                  href="/exam-history" 
+                  className="block px-3 py-2 text-foreground hover:text-primary transition-colors duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Exam History
+                </Link>
+              </SignedIn>
+              <div className="px-3 py-2 space-y-2">
+                <SignedOut>
+                  <SignInButton>
+                    <Button variant="default" size="sm" className="w-full">
+                      Sign In
+                    </Button>
+                  </SignInButton>
+                  <SignUpButton>
+                    <Button variant="default" size="sm" className="w-full">
+                      Sign Up
+                    </Button>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  <div className="flex justify-center">
+                    <UserButton />
+                  </div>
+                </SignedIn>
               </div>
             </div>
           </div>

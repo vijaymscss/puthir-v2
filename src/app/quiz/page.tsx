@@ -8,6 +8,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { examTopics } from "@/utils/constants";
 import Link from "next/link";
 import { QuizQuestion, QuizData } from "@/lib/services/quiz-service";
+import { useQuizSubmission } from "@/hooks/use-quiz";
+import { QuizResult, QuestionResult } from "@/lib/validations/quiz";
+import { useUser } from "@clerk/nextjs";
 import jsPDF from 'jspdf';
 
 function QuizContent() {
@@ -19,6 +22,11 @@ function QuizContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [quizData, setQuizData] = useState<QuizData | null>(null);
+  const [quizStartTime] = useState(new Date().toISOString());
+  
+  // Quiz submission and user hooks
+  const { submitQuizResult, isLoading: isSavingResults } = useQuizSubmission();
+  const { user } = useUser();
   
   const hasMadeCall = useRef(false);
   const pdfContentRef = useRef<HTMLDivElement>(null);
@@ -311,8 +319,8 @@ function QuizContent() {
     return true;
   };
 
-  const handleSubmit = () => {
-    if (!quizData) return;
+  const handleSubmit = async () => {
+    if (!quizData || !user?.primaryEmailAddress?.emailAddress) return;
 
     // Double-check all questions are answered before submitting
     if (!areAllQuestionsAnswered()) {
@@ -320,28 +328,83 @@ function QuizContent() {
       return;
     }
 
+    const endTime = new Date().toISOString();
     let correctCount = 0;
+    const questionResults: QuestionResult[] = [];
     
     quizData.questions.forEach((question: QuizQuestion, index: number) => {
       const userAnswers = selectedAnswers[index] || [];
       const correctAnswer = question.correctAnswer;
+      let isCorrect = false;
       
       if (typeof correctAnswer === "number") {
         // Single correct answer
-        if (userAnswers.length === 1 && userAnswers[0] === correctAnswer) {
-          correctCount++;
-        }
+        isCorrect = userAnswers.length === 1 && userAnswers[0] === correctAnswer;
       } else {
         // Multiple correct answers
         const sortedUserAnswers = [...userAnswers].sort();
         const sortedCorrectAnswers = [...correctAnswer].sort();
         
-        if (sortedUserAnswers.length === sortedCorrectAnswers.length &&
-            sortedUserAnswers.every((answer, idx) => answer === sortedCorrectAnswers[idx])) {
-          correctCount++;
-        }
+        isCorrect = sortedUserAnswers.length === sortedCorrectAnswers.length &&
+            sortedUserAnswers.every((answer, idx) => answer === sortedCorrectAnswers[idx]);
       }
+      
+      if (isCorrect) correctCount++;
+
+      // Build question result object
+      questionResults.push({
+        questionId: `q${index + 1}`,
+        questionText: question.question,
+        userAnswer: userAnswers.map(idx => question.options[idx]).join(', '),
+        correctAnswer: Array.isArray(correctAnswer) 
+          ? correctAnswer.map(idx => question.options[idx]).join(', ')
+          : question.options[correctAnswer],
+        isCorrect,
+        explanation: question.explanation || '',
+        options: question.options,
+      });
     });
+    
+    const percentage = Math.round((correctCount / quizData.questions.length) * 100);
+    
+    // Calculate time spent (in seconds)
+    const timeSpentSeconds = Math.round(
+      (new Date(endTime).getTime() - new Date(quizStartTime).getTime()) / 1000
+    );
+
+    // Prepare quiz result data
+    const quizResultData: QuizResult = {
+      testId: `quiz-${Date.now()}`,
+      certificateName: quizData.examInfo.name,
+      certificateProvider: 'AWS', // Default to AWS since this is an AWS quiz platform
+      certificateCode: quizData.examInfo.type.toUpperCase(),
+      emailId: user.primaryEmailAddress.emailAddress,
+      score: correctCount,
+      totalQuestions: quizData.questions.length,
+      percentage,
+      timeSpent: timeSpentSeconds,
+      questions: questionResults,
+      startTime: quizStartTime,
+      endTime,
+      quizSettings: {
+        timeLimit: undefined,
+        shuffleQuestions: false,
+        showCorrectAnswers: true,
+      }
+    };
+
+    try {
+      // Store quiz results in database
+      const result = await submitQuizResult(quizResultData);
+      
+      if (result.success) {
+        console.log('Quiz results saved successfully:', result.data);
+      } else {
+        console.error('Failed to save quiz results:', result.error);
+      }
+    } catch (error) {
+      console.error('Error saving quiz results:', error);
+    }
     
     setScore(correctCount);
     setShowResults(true);
@@ -766,9 +829,16 @@ function QuizContent() {
                     <Button
                       onClick={handleSubmit}
                       className="bg-green-600 hover:bg-green-700"
-                      disabled={!areAllQuestionsAnswered()}
+                      disabled={!areAllQuestionsAnswered() || isSavingResults}
                     >
-                      Submit Quiz
+                      {isSavingResults ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                          Saving Results...
+                        </>
+                      ) : (
+                        'Submit Quiz'
+                      )}
                     </Button>
                     {!areAllQuestionsAnswered() && (
                       <p className="text-xs text-orange-600 mt-1 text-center">
