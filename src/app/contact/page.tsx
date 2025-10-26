@@ -136,8 +136,8 @@ export default function ContactPage() {
         </div>
 
         {/* Email Support Card */}
-        <div className="flex justify-center mb-12">
-          <div className="w-full sm:w-96 bg-gradient-to-br from-white/90 to-gray-50/40 dark:from-slate-800/80 dark:to-slate-900/60 rounded-xl p-6 border shadow-sm hover:shadow-lg transition-all duration-300 animate-fade-in-up group cursor-pointer" style={{ animationDelay: '0.2s' }}>
+        <div className="mb-12">
+          <div className="w-full bg-gradient-to-br from-white/90 to-gray-50/40 dark:from-slate-800/80 dark:to-slate-900/60 rounded-xl p-6 border shadow-sm hover:shadow-lg transition-all duration-300 animate-fade-in-up group cursor-pointer" style={{ animationDelay: '0.2s' }}>
             <div className="text-center">
               <div className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500/80 to-blue-600/80 flex items-center justify-center text-white text-2xl mx-auto mb-4 transition-transform duration-300 group-hover:scale-110">
                 📧
@@ -145,20 +145,19 @@ export default function ContactPage() {
               <h3 className="font-semibold text-lg mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Email Support</h3>
               <p className="text-sm text-muted-foreground mb-4">Professional assistance</p>
               <p className="font-medium text-blue-600 dark:text-blue-400 text-sm mb-3">support@cloudquizplatform.com</p>
-              <div className="text-xs text-muted-foreground bg-blue-50/30 dark:bg-blue-900/10 rounded-lg py-2 px-3">
+              <p className="text-xs text-muted-foreground bg-blue-50/30 dark:bg-blue-900/10 rounded-lg py-2 px-3">
                 📅 Response within 24 hours
-              </div>
+              </p>
             </div>
           </div>
         </div>
 
         {/* Two Column Section - Form and FAQ */}
-        <div style={{ animationDelay: '0.6s' }}  className="grid lg:grid-cols-2 gap-8"> 
+        <div className="grid lg:grid-cols-2 gap-8"> 
           {/* Contact Form Section */}
-          
-            
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             <ContactForm />
-          {/* </div> */}
+          </div>
 
           {/* FAQ Section - Redesigned */}
           <div className="animate-fade-in-up" style={{ animationDelay: '0.6s' }}>

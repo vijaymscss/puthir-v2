@@ -73,7 +73,7 @@ export default function ExamSyllabusPage() {
               </div>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
+            <div className="grid md:grid-cols-3 gap-4 justify-between mb-6">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-blue-500" />
                 <span className="font-medium">{detailedExam.duration}</span>

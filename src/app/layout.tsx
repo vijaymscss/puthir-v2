@@ -5,6 +5,7 @@ import Navbar from "@/components/app/Navbar";
 import { ThemeProvider } from "@/components/app/ThemeProvider";
 import QueryProvider from "@/providers/query-provider";
 import ClerkProviderClient from "@/components/app/ClerkProviderClient";
+import ScrollToTop from "@/components/app/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ScrollToTop />
         <ClerkProviderClient>
           <ThemeProvider
             attribute="class"

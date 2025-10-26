@@ -233,9 +233,6 @@ export default function ExamHistoryPage() {
               <h2 className="text-2xl font-bold text-foreground">
                 Exam Results
               </h2>
-              <div className="text-sm text-muted-foreground">
-                {examHistory.length} exam{examHistory.length !== 1 ? 's' : ''} completed
-              </div>
             </div>
             
             {/* Table-like Layout for Desktop, Card for Mobile */}
