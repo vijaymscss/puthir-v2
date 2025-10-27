@@ -30,29 +30,35 @@ export interface ApiError {
   status?: number;
 }
 
+/**
+ * Generates a quiz with the provided configuration using the centralized API service
+ * @param request - Quiz generation request with exam name, level, type, topics, and count
+ * @returns Promise<QuizData> - Generated quiz data with questions and exam info
+ * @throws Error if the API call fails
+ */
 export const generateQuiz = async (request: QuizRequest): Promise<QuizData> => {
-  const response = await fetch("/api/generate-quiz", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(request),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    let errorMessage = `Failed to generate quiz: ${response.status}`;
+  try {
+    // Use the centralized API service
+    const { quizApi } = await import('./api');
+    const data = await quizApi.generateQuiz({
+      examName: request.examName,
+      examLevel: request.examLevel,
+      quizType: request.quizType,
+      selectedTopics: request.selectedTopics,
+      questionCount: request.questionCount,
+    });
     
-    try {
-      const errorData = JSON.parse(errorText);
-      errorMessage = errorData.error || errorMessage;
-    } catch {
-      errorMessage = errorText || errorMessage;
+    // Validate the response structure
+    const typedData = data as QuizData;
+    if (!typedData.questions || !Array.isArray(typedData.questions) || !typedData.examInfo) {
+      throw new Error("Invalid quiz data structure received from server");
     }
 
-    throw new Error(errorMessage);
+    return typedData;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("An unexpected error occurred while generating the quiz");
   }
-
-  const data = await response.json();
-  return data;
 };
