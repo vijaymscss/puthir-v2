@@ -5,15 +5,16 @@ import { ThemeToggle } from "@/components/app/ThemeToggle";
 import Link from "next/link";
 import { useState } from "react";
 import {
-  SignInButton,
-  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { useTheme } from "next-themes";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { resolvedTheme } = useTheme();
 
   return (
     <nav className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
@@ -21,9 +22,15 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo and brand */}
           <div className="flex items-center">
-            <Link href="/" className="flex flex-col">
-              <span className="text-xl font-bold text-foreground">Puthir</span>
-              <span className="text-xs text-muted-foreground -mt-1">An AI Quiz App</span>
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src={resolvedTheme === 'dark' ? '/cpt_logo_dark.png' : '/cpt_logo_light.png'}
+                alt="CPT Logo"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
             </Link>
           </div>
 
@@ -36,6 +43,12 @@ export default function Navbar() {
                 className="text-foreground hover:text-primary transition-colors duration-200"
               >
                 About
+              </Link>
+              <Link 
+                href="/exam-syllabus" 
+                className="text-foreground hover:text-primary transition-colors duration-200"
+              >
+                Browse Syllabus
               </Link>
               <Link 
                 href="/contact" 
@@ -54,11 +67,11 @@ export default function Navbar() {
               <ThemeToggle />
               <SignedOut>
                 <div className="flex items-center gap-2">
-                  <SignInButton>
+                  <Link href="/auth">
                     <Button variant="default" size="sm">
                       Sign In
                     </Button>
-                  </SignInButton>
+                  </Link>
                 </div>
               </SignedOut>
               <SignedIn>
@@ -98,6 +111,13 @@ export default function Navbar() {
                 About
               </Link>
               <Link 
+                href="/exam-syllabus" 
+                className="block px-3 py-2 text-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Browse Syllabus
+              </Link>
+              <Link 
                 href="/contact" 
                 className="block px-3 py-2 text-foreground hover:text-primary transition-colors duration-200"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -115,16 +135,11 @@ export default function Navbar() {
               </SignedIn>
               <div className="px-3 py-2 space-y-2">
                 <SignedOut>
-                  <SignInButton>
+                  <Link href="/auth" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button variant="default" size="sm" className="w-full">
-                      Sign In
+                      Sign In / Sign Up
                     </Button>
-                  </SignInButton>
-                  <SignUpButton>
-                    <Button variant="default" size="sm" className="w-full">
-                      Sign Up
-                    </Button>
-                  </SignUpButton>
+                  </Link>
                 </SignedOut>
                 <SignedIn>
                   <div className="flex justify-center">
