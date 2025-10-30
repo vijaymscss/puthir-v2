@@ -73,7 +73,7 @@ export default function ExamSyllabusPage() {
               </div>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-4 justify-between mb-6">
+            <div className="gap-4 mb-6 flex justify-between">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-blue-500" />
                 <span className="font-medium">{detailedExam.duration}</span>
@@ -131,7 +131,9 @@ export default function ExamSyllabusPage() {
           {/* Action Buttons */}
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.8s' }}>
             <Link href={`/quiz-setup?exam=${detailedExam.id}`}>
-              <Button size="lg" className="bg-gradient-to-r from-green-600/90 to-blue-600/90 hover:from-green-700/90 hover:to-blue-700/90 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20 transform hover:scale-105">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600/90 to-purple-600/90
+                           hover:from-blue-700/90 hover:to-purple-700/90 transition-all 
+                           duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:scale-105">
                 Start Practice Quiz
               </Button>
             </Link>
