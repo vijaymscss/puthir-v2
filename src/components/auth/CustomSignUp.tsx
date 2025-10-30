@@ -2,7 +2,7 @@
 
 import { useSignUp } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,7 @@ import Image from 'next/image';
  * Custom Clerk Sign-up component with Tailwind CSS styling
  * Provides email/password registration with email verification
  */
-export function CustomSignUp() {
+export function CustomSignUp({ onSwitchToSignIn }: { onSwitchToSignIn?: () => void }) {
   const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
   const { resolvedTheme } = useTheme();
@@ -27,21 +27,40 @@ export function CustomSignUp() {
   const [verificationSent, setVerificationSent] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLoaded || !signUp) return;
+    console.log('🔵 Sign-up button clicked');
+    
+    if (!isLoaded) {
+      console.log('❌ Clerk not loaded yet');
+      return;
+    }
+    
+    if (!signUp) {
+      console.log('❌ signUp object is undefined');
+      return;
+    }
 
     if (password !== confirmPassword) {
+      console.log('❌ Passwords do not match');
       setError('Passwords do not match');
       return;
     }
 
     if (password.length < 8) {
+      console.log('❌ Password too short');
       setError('Password must be at least 8 characters long');
       return;
     }
 
+    console.log('✅ Starting sign-up process...', { email });
     setIsLoading(true);
     setError('');
 
@@ -51,16 +70,21 @@ export function CustomSignUp() {
         password: password,
       });
 
+      console.log('📦 Sign-up result:', result.status);
+
       if (result.status === 'complete') {
         if (result.createdSessionId) {
           await setActive({ session: result.createdSessionId });
         }
+        console.log('✅ Sign-up complete, redirecting...');
         router.push('/');
       } else {
+        console.log('📧 Email verification required');
         // Email verification required
         setVerificationSent(true);
       }
     } catch (err: any) {
+      console.error('❌ Sign-up error:', err);
       setError(err.errors?.[0]?.message || 'Failed to create account. Please try again.');
     } finally {
       setIsLoading(false);
@@ -126,48 +150,51 @@ export function CustomSignUp() {
     <div className="relative flex items-center justify-center">
       <div className="relative w-full max-w-md animate-fade-in-up">
         {/* Sign-up card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-2xl p-8 space-y-6 border border-gray-200 dark:border-gray-700 backdrop-blur-sm hover:shadow-2xl dark:hover:shadow-3xl transition-shadow duration-300">
+        <div className="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-blue-200/50 backdrop-blur-sm transition-shadow duration-300">
           {/* Header */}
-          <div className="text-center space-y-2 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <div className="flex items-center justify-center gap-2 mb-4 animate-float">
+          <div className="text-center space-y-3">
+            <div className="mx-auto flex h-20 items-center justify-center gap-2" suppressHydrationWarning>
               <Image
-                src={resolvedTheme === 'dark' ? '/cpt_logo_dark.png' : '/cpt_logo_light.png'}
-                alt="CPT Logo"
-                width={160}
-                height={50}
-                className="h-12 w-auto"
+                src='/cpt_logo_light.png'
+                alt="Cloud Practice Test"
+                width={90}
+                height={90}
                 priority
               />
+              <div className="text-left">
+                <p className="font-bold text-2xl text-blue-900">Cloud Practice Test</p>
+                <p className="text-sm text-slate-500">The product of Cloud-V</p>
+              </div>
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Create Account
-            </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Join us to start practicing cloud certifications
-            </p>
+            <div className="space-y-1">
+              <h2 className="text-xl font-semibold text-slate-500">
+                Create an account
+              </h2>
+              <p className="text-sm text-slate-500">
+                Start your personalized cloud certification journey today.
+              </p>
+            </div>
           </div>
 
           {/* Error message */}
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-              <p className="text-sm text-red-800 dark:text-red-300 font-medium">
-                {error}
-              </p>
+            <div className="rounded-2xl border border-red-200 bg-red-50/80 p-4 text-sm text-red-700">
+              {error}
             </div>
           )}
 
           {/* Verification form */}
           {verificationSent ? (
             <form onSubmit={handleVerification} className="space-y-4">
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                <p className="text-sm text-blue-800 dark:text-blue-300">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4" suppressHydrationWarning>
+                <p className="text-sm text-blue-800 dark:text-blue-300" suppressHydrationWarning>
                   We've sent a verification code to <strong>{email}</strong>. Please check your inbox.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="code" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Verification Code
+                <label htmlFor="code" className="block text-sm font-semibold uppercase tracking-wide text-slate-500">
+                  Verification code
                 </label>
                 <Input
                   id="code"
@@ -178,14 +205,14 @@ export function CustomSignUp() {
                   maxLength={6}
                   required
                   disabled={isVerifying}
-                  className="w-full px-4 py-2 text-center text-2xl tracking-widest bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-mono"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center text-2xl tracking-[0.7em] text-slate-900 placeholder:text-slate-300 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60 font-mono"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={isVerifying}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2.5 rounded-lg transition-all duration-200 transform hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none mt-6"
+                className="mt-6 w-full rounded-full bg-gradient-to-r from-[#2563ff] via-[#5a3dff] to-[#8b5cf6] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5a3dff]/40 transition hover:scale-[1.02] hover:shadow-[#5a3dff]/60 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isVerifying ? (
                   <span className="flex items-center justify-center gap-2">
@@ -193,7 +220,7 @@ export function CustomSignUp() {
                     Verifying...
                   </span>
                 ) : (
-                  'Verify Email'
+                  '🔐 Verify & Start'
                 )}
               </Button>
 
@@ -205,6 +232,7 @@ export function CustomSignUp() {
                   setError('');
                 }}
                 className="w-full text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                suppressHydrationWarning
               >
                 Back to Sign Up
               </button>
@@ -214,9 +242,9 @@ export function CustomSignUp() {
               {/* Sign-up form */}
               <form onSubmit={handleEmailSignUp} className="space-y-4">
                 {/* Email input */}
-                <div className="space-y-2">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Email Address
+                <div className="space-y-2 pt-5">
+                  <label htmlFor="email" className="block text-sm font-semibold uppercase tracking-wide text-slate-500">
+                    Email address
                   </label>
                   <Input
                     id="email"
@@ -226,13 +254,13 @@ export function CustomSignUp() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     disabled={isLoading}
-                    className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
                   />
                 </div>
 
                 {/* Password input */}
                 <div className="space-y-2">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label htmlFor="password" className="block text-sm font-semibold uppercase tracking-wide text-slate-500">
                     Password
                   </label>
                   <div className="relative">
@@ -244,12 +272,12 @@ export function CustomSignUp() {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       disabled={isLoading}
-                      className="w-full px-4 py-2 pr-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 transition hover:text-blue-600"
                     >
                       {showPassword ? (
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -268,8 +296,8 @@ export function CustomSignUp() {
 
                 {/* Confirm password input */}
                 <div className="space-y-2">
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Confirm Password
+                  <label htmlFor="confirmPassword" className="block text-sm font-semibold uppercase tracking-wide text-slate-500">
+                    Confirm password
                   </label>
                   <div className="relative">
                     <Input
@@ -280,12 +308,12 @@ export function CustomSignUp() {
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       required
                       disabled={isLoading}
-                      className="w-full px-4 py-2 pr-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 transition hover:text-blue-600"
                     >
                       {showConfirmPassword ? (
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -303,10 +331,13 @@ export function CustomSignUp() {
                 </div>
 
                 {/* Sign-up button */}
-                <Button
+                <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2.5 rounded-lg transition-all duration-200 transform hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none mt-6"
+                  className="mt-6 w-full rounded-full bg-gradient-to-r from-[#2563ff] via-[#5a3dff] to-[#8b5cf6] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5a3dff]/40 transition hover:scale-[1.02] hover:shadow-[#5a3dff]/60 disabled:cursor-not-allowed disabled:opacity-60"
+                  onClick={(e) => {
+                    console.log('🟢 Native sign-up button clicked!');
+                  }}
                 >
                   {isLoading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -314,19 +345,19 @@ export function CustomSignUp() {
                       Creating account...
                     </span>
                   ) : (
-                    'Create Account'
+                    '🔐 Sign up & Start'
                   )}
-                </Button>
+                </button>
               </form>
 
               {/* Divider */}
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                  <div className="w-full border-t border-slate-200"></div>
                 </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                    Or sign up with
+                <div className="relative flex justify-center text-sm py-5">
+                  <span className="px-3 bg-white text-slate-400">
+                    OR SIGN UP WITH
                   </span>
                 </div>
               </div>
@@ -338,7 +369,7 @@ export function CustomSignUp() {
                   type="button"
                   onClick={() => handleOAuthSignUp('oauth_google')}
                   disabled={isLoading}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-600 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 hover:shadow-md hover:shadow-red-500/20"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-600"
                   title="Sign up with Google"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -355,7 +386,7 @@ export function CustomSignUp() {
                   type="button"
                   onClick={() => handleOAuthSignUp('oauth_facebook')}
                   disabled={isLoading}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-600 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 hover:shadow-md hover:shadow-blue-500/20"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-600"
                   title="Sign up with Facebook"
                 >
                   <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
@@ -369,7 +400,7 @@ export function CustomSignUp() {
                   type="button"
                   onClick={() => handleOAuthSignUp('oauth_apple')}
                   disabled={isLoading}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-600 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 hover:shadow-md hover:shadow-gray-500/20"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-600"
                   title="Sign up with Apple"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -380,27 +411,36 @@ export function CustomSignUp() {
               </div>
 
               {/* Sign-in link */}
-              <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-center text-sm text-slate-500 pt-2">
                 Already have an account?{' '}
-                <Link
-                  href="/sign-in"
-                  className="font-semibold text-blue-600 dark:text-blue-400 hover:underline transition-colors"
-                >
-                  Sign in
-                </Link>
+                {onSwitchToSignIn ? (
+                  <button
+                    type="button"
+                    onClick={onSwitchToSignIn}
+                    className="font-semibold text-blue-600 transition hover:text-blue-700 hover:underline"
+                  >
+                    Sign in
+                  </button>
+                ) : (
+                  <Link
+                    href="/sign-in"
+                    className="font-semibold text-blue-600 transition hover:text-blue-700"
+                  >
+                    Sign in
+                  </Link>
+                )}
               </p>
             </>
           )}
         </div>
 
-        {/* Footer text */}
-        <p className="text-center text-xs text-gray-500 dark:text-gray-500 mt-8">
+        <p className="mt-8 text-center text-xs text-slate-400">
           By signing up, you agree to our{' '}
-          <Link href="/terms" className="underline hover:text-gray-700 dark:hover:text-gray-300">
+          <Link href="/terms" className="font-medium text-blue-600 underline-offset-4 hover:underline">
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link href="/privacy" className="underline hover:text-gray-700 dark:hover:text-gray-300">
+          <Link href="/privacy" className="font-medium text-blue-600 underline-offset-4 hover:underline">
             Privacy Policy
           </Link>
         </p>

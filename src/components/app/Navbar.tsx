@@ -16,6 +16,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { resolvedTheme } = useTheme();
 
+
   return (
     <nav className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,7 +31,12 @@ export default function Navbar() {
                 height={40}
                 className="h-10 w-auto"
                 priority
+                suppressHydrationWarning
               />
+              <div className='text-left' suppressHydrationWarning>
+              <p className='font-bold text-xl text-blue-900 dark:text-white' suppressHydrationWarning>Cloud Practice Test</p>
+              <p className='text-sm text-slate-500 dark:text-amber-50' suppressHydrationWarning>The product of Cloud-V</p>
+              </div>
             </Link>
           </div>
 

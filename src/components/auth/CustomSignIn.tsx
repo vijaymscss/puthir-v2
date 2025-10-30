@@ -2,7 +2,7 @@
 
 import { useSignIn } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,7 @@ import Image from 'next/image';
  * Custom Clerk Sign-in component with Tailwind CSS styling
  * Provides email/password authentication and OAuth providers
  */
-export function CustomSignIn() {
+export function CustomSignIn({ onSwitchToSignUp }: { onSwitchToSignUp?: () => void }) {
   const { isLoaded, signIn, setActive } = useSignIn();
   const router = useRouter();
   const { resolvedTheme } = useTheme();
@@ -22,11 +22,28 @@ export function CustomSignIn() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLoaded || !signIn) return;
+    console.log('🔵 Sign-in button clicked');
+    
+    if (!isLoaded) {
+      console.log('❌ Clerk not loaded yet');
+      return;
+    }
+    
+    if (!signIn) {
+      console.log('❌ signIn object is undefined');
+      return;
+    }
 
+    console.log('✅ Starting sign-in process...', { email });
     setIsLoading(true);
     setError('');
 
@@ -37,15 +54,20 @@ export function CustomSignIn() {
         password: password,
       });
 
+      console.log('📦 Sign-in result:', result.status);
+
       if (result.status === 'complete') {
         if (result.createdSessionId) {
           await setActive({ session: result.createdSessionId });
         }
+        console.log('✅ Sign-in complete, redirecting...');
         router.push('/');
       } else {
+        console.log('⚠️ Sign-in incomplete:', result.status);
         setError('Sign-in incomplete. Please try again.');
       }
     } catch (err: any) {
+      console.error('❌ Sign-in error:', err);
       setError(err.errors?.[0]?.message || 'Failed to sign in. Please check your email and password.');
       setPassword('');
     } finally {
@@ -85,31 +107,36 @@ export function CustomSignIn() {
     <div className="relative flex items-center justify-center">
       <div className="relative w-full max-w-md animate-fade-in-up">
         {/* Sign-in card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-2xl p-8 space-y-6 border border-gray-200 dark:border-gray-700 backdrop-blur-sm hover:shadow-2xl dark:hover:shadow-3xl transition-shadow duration-300">
+        <div className="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl shadow-blue-200/50 backdrop-blur-sm transition-shadow duration-300">
           {/* Header */}
-          <div className="text-center space-y-2 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <div className="flex items-center justify-center gap-2 mb-4 animate-float">
+          <div className="text-center space-y-3">
+            <div className="mx-auto flex h-20 items-center justify-center gap-2" suppressHydrationWarning>
               <Image
-                src={resolvedTheme === 'dark' ? '/cpt_logo_dark.png' : '/cpt_logo_light.png'}
-                alt="CPT Logo"
-                width={160}
-                height={50}
-                className="h-12 w-auto"
+                src='/cpt_logo_light.png'
+                alt="Cloud Practice Test"
+                width={90}
+                height={90}
                 priority
-              />
+              /> 
+              <div className='text-left'>
+              <p className='font-bold text-2xl text-blue-900'>Cloud Practice Test</p>
+              <p className='text-sm text-slate-500'>The product of Cloud-V</p>
+              </div>
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Welcome Back
-            </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Sign in to your account to continue
-            </p>
+            <div className="space-y-1 mt-5">
+              <h2 className="text-xl font-semibold text-slate-500">
+                Welcome back
+              </h2>
+              <p className="text-sm text-slate-500">
+                Sign in to manage your cloud practice journey.
+              </p>
+            </div>
           </div>
 
           {/* Error message */}
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 animate-pulse-scale">
-              <p className="text-sm text-red-800 dark:text-red-300 font-medium">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 animate-pulse-scale" suppressHydrationWarning>
+              <p className="text-sm text-red-800 dark:text-red-300 font-medium" suppressHydrationWarning>
                 {error}
               </p>
             </div>
@@ -118,9 +145,9 @@ export function CustomSignIn() {
           {/* Email/Password form */}
           <form onSubmit={handleEmailSignIn} className="space-y-4">
             {/* Email input */}
-            <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Email Address
+            <div className="space-y-2 animate-fade-in-up pt-5" style={{ animationDelay: '0.2s' }}>
+              <label htmlFor="email" className="block text-sm font-semibold uppercase tracking-wide text-slate-500">
+                Email address
               </label>
               <Input
                 id="email"
@@ -130,19 +157,19 @@ export function CustomSignIn() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
-                className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-400 transition-all duration-300 hover:border-blue-400 dark:hover:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
               />
             </div>
 
             {/* Password input */}
             <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="password" className="block text-sm font-semibold uppercase tracking-wide text-slate-500">
                   Password
                 </label>
                 <Link
                   href="/forgot-password"
-                  className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium transition-opacity hover:opacity-80"
+                  className="text-xs font-semibold text-blue-600 transition hover:text-blue-700"
                 >
                   Forgot password?
                 </Link>
@@ -156,12 +183,12 @@ export function CustomSignIn() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="w-full px-4 py-2 pr-10 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-400 transition-all duration-300 hover:border-blue-400 dark:hover:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors hover:scale-110"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 transition hover:text-blue-600"
                 >
                   {showPassword ? (
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -179,10 +206,13 @@ export function CustomSignIn() {
             </div>
 
             {/* Sign-in button */}
-            <Button
+            <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2.5 rounded-lg transition-all duration-300 transform hover:shadow-lg hover:shadow-blue-500/40 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100 mt-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}
+              className="mt-6 w-full rounded-full bg-gradient-to-r from-[#2563ff] via-[#5a3dff] to-[#8b5cf6] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#5a3dff]/40 transition hover:scale-[1.02] hover:shadow-[#5a3dff]/60 disabled:cursor-not-allowed disabled:opacity-60"
+              onClick={(e) => {
+                console.log('🟢 Native button clicked!');
+              }}
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -190,31 +220,31 @@ export function CustomSignIn() {
                   Signing in...
                 </span>
               ) : (
-                'Sign In'
+                '🔐 Sign in & Start'
               )}
-            </Button>
+            </button>
           </form>
 
           {/* Divider */}
-          <div className="relative animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+          <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+              <div className="w-full border-t border-slate-200"></div>
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                Or continue with
+            <div className="relative flex justify-center text-sm py-5">
+              <span className="px-3 bg-white text-slate-400">
+                OR CONTINUE WITH
               </span>
             </div>
           </div>
 
           {/* OAuth buttons */}
-          <div className="grid grid-cols-3 gap-3 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          <div className="grid grid-cols-3 gap-3">
             {/* Google */}
             <button
               type="button"
               onClick={() => handleOAuthSignIn('oauth_google')}
               disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-600 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 hover:shadow-md hover:shadow-red-500/20"
+              className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-600"
               title="Sign in with Google"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -231,7 +261,7 @@ export function CustomSignIn() {
               type="button"
               onClick={() => handleOAuthSignIn('oauth_facebook')}
               disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-600 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 hover:shadow-md hover:shadow-blue-500/20"
+              className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-600"
               title="Sign in with Facebook"
             >
               <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
@@ -245,7 +275,7 @@ export function CustomSignIn() {
               type="button"
               onClick={() => handleOAuthSignIn('oauth_apple')}
               disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-600 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 hover:shadow-md hover:shadow-gray-500/20"
+              className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-600"
               title="Sign in with Apple"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -256,25 +286,34 @@ export function CustomSignIn() {
           </div>
 
           {/* Sign-up link */}
-          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-center text-sm text-slate-500 pt-2">
             Don't have an account?{' '}
-            <Link
-              href="/sign-up"
-              className="font-semibold text-blue-600 dark:text-blue-400 hover:underline transition-all hover:scale-105 inline-block"
-            >
-              Sign up
-            </Link>
+            {onSwitchToSignUp ? (
+              <button
+                type="button"
+                onClick={onSwitchToSignUp}
+                className="font-semibold text-blue-600 transition hover:text-blue-700 hover:underline"
+              >
+                Sign up
+              </button>
+            ) : (
+              <Link
+                href="/sign-up"
+                className="font-semibold text-blue-600 transition hover:text-blue-700"
+              >
+                Sign up
+              </Link>
+            )}
           </p>
         </div>
 
-        {/* Footer text */}
-        <p className="text-center text-xs text-gray-500 dark:text-gray-500 mt-8 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
+        <p className="mt-8 text-center text-xs text-slate-400">
           By signing in, you agree to our{' '}
-          <Link href="/terms" className="underline hover:text-gray-700 dark:hover:text-gray-300 hover:scale-105 inline-block transition-transform">
+          <Link href="/terms" className="font-medium text-blue-600 underline-offset-4 hover:underline">
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link href="/privacy" className="underline hover:text-gray-700 dark:hover:text-gray-300 hover:scale-105 inline-block transition-transform">
+          <Link href="/privacy" className="font-medium text-blue-600 underline-offset-4 hover:underline">
             Privacy Policy
           </Link>
         </p>
