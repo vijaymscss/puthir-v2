@@ -51,6 +51,12 @@ export default function Navbar() {
                 About
               </Link>
               <Link 
+                href="/free-test" 
+                className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-semibold transition-colors duration-200"
+              >
+                Free Test 🎯
+              </Link>
+              <Link 
                 href="/exam-syllabus" 
                 className="text-foreground hover:text-primary transition-colors duration-200"
               >
@@ -115,6 +121,13 @@ export default function Navbar() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
+              </Link>
+              <Link 
+                href="/free-test" 
+                className="block px-3 py-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-semibold transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Free Test 🎯
               </Link>
               <Link 
                 href="/exam-syllabus" 

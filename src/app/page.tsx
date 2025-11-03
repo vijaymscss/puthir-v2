@@ -122,6 +122,16 @@ export default function Home() {
                   </Button>
                 </SignInButton>
               </SignedOut>
+
+              <Link href="/free-test">
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="border-2 border-emerald-600 dark:border-emerald-400 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 px-8 py-4 text-lg font-semibold transition-all duration-300 w-full sm:w-auto"
+                >
+                  🎯 Try Free Demo
+                </Button>
+              </Link>
               
               <Link href="/contact">
                 <Button 
