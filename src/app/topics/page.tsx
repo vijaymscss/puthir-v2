@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@/shared/components/ui/accordion";
 import Link from "next/link";
-import { examTopics } from "@/utils/constants";
+import { examTopics } from "@/features/exam/constants/examTopics";
 
 export default function TopicsPage() {
   return (

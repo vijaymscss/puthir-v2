@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { examTopics } from "@/utils/constants";
-import { getExamTopics } from "@/constants/examTopicMappings";
+import { examTopics } from "@/features/exam/constants/examTopics";
+import { getExamTopics } from "@/features/exam/constants/examTopicMappings";
 
 interface ExamType {
   id: string;

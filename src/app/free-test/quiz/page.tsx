@@ -2,9 +2,9 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
-import { getDemoQuestions, DemoQuestion } from "@/constants/demoQuestions";
+import { getDemoQuestions, DemoQuestion } from "@/features/free-test/constants/demoQuestions";
 
 function FreeTestQuizContent() {
   const router = useRouter();

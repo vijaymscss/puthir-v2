@@ -54,20 +54,45 @@ pnpm dev
 
 ## Project Structure
 
+The application follows a **feature-based architecture** for better scalability and maintainability:
+
 ```
 src/
-├── app/
-│   ├── api/generate-quiz/     # AI quiz generation endpoint
-│   ├── exam/[examId]/         # Exam details and topic selection
-│   ├── instructions/          # Quiz instructions page
-│   ├── quiz/                  # Main quiz interface
-│   └── quiz-setup/            # Quiz configuration flow
-├── components/
-│   ├── app/                   # Custom app components
-│   └── ui/                    # shadcn/ui components
-└── utils/
-    └── constants.ts           # AWS exam data and configurations
+├── core/                      # Core infrastructure
+│   ├── config/                # Prisma, database configuration
+│   ├── middleware/            # Authentication & routing
+│   └── providers/             # React Query provider
+│
+├── shared/                    # Shared utilities & components
+│   ├── components/            # UI components, layout, theme
+│   ├── lib/                   # Utility functions
+│   ├── types/                 # Global types
+│   └── config/                # API configuration
+│
+├── features/                  # Feature modules
+│   ├── quiz/                  # Main quiz functionality
+│   │   ├── components/        # Quiz UI components
+│   │   ├── hooks/             # Quiz state & logic hooks
+│   │   ├── services/          # Quiz API services
+│   │   └── validations/       # Quiz data schemas
+│   ├── exam/                  # Exam catalog & management
+│   │   ├── components/        # Exam UI components
+│   │   └── constants/         # Exam data & topics
+│   ├── free-test/             # Demo/free quiz
+│   │   └── constants/         # Demo questions
+│   ├── auth/                  # Authentication
+│   ├── contact/               # Contact form
+│   ├── about/                 # About page
+│   └── home/                  # Landing page
+│
+└── app/                       # Next.js app directory
+    ├── quiz/                  # Quiz routes
+    ├── exam/                  # Exam routes
+    ├── free-test/             # Free test routes
+    └── api/                   # API routes
 ```
+
+For detailed architecture documentation, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 ## Usage
 

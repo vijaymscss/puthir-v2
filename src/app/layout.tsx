@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/app/ThemeProvider";
-import QueryProvider from "@/providers/query-provider";
-import ClerkProviderClient from "@/components/app/ClerkProviderClient";
-import ScrollToTop from "@/components/app/ScrollToTop";
-import LayoutShell from "@/components/app/LayoutShell";
+import { ThemeProvider } from "@/shared/components/theme/ThemeProvider";
+import QueryProvider from "@/core/providers/query-provider";
+import ClerkProviderClient from "@/shared/components/providers/ClerkProviderClient";
+import ScrollToTop from "@/shared/components/layout/ScrollToTop";
+import LayoutShell from "@/shared/components/layout/LayoutShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

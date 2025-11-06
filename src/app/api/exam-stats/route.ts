@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getUserExamStats } from '@/lib/database'
+import { getUserExamStats } from '@/core/config/database'
 
 export async function GET(request: Request) {
   try {

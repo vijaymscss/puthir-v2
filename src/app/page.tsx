@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";

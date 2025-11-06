@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { CustomSignUp } from '@/components/auth/CustomSignUp';
+import { CustomSignUp } from '@/features/auth/components/CustomSignUp';
 
 export const metadata: Metadata = {
   title: 'Sign Up | Cloud Practice Test',

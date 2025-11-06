@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
-import { aboutContent } from "@/content/about.content";
+import { aboutContent } from "@/features/about/content/about.content";
 import * as Icons from "lucide-react";
 
 // Icon mapper component

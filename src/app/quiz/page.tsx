@@ -2,18 +2,18 @@
 
 import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { examTopics } from "@/utils/constants";
+import { examTopics } from "@/features/exam/constants/examTopics";
 import { useUser } from "@clerk/nextjs";
 
-import { QuizData, QuizRequest } from "@/lib/services/quiz-service";
-import { useQuizState } from "@/hooks/use-quiz-state";
-import { useQuizLogic } from "@/hooks/use-quiz-logic";
+import { QuizData, QuizRequest } from "@/features/quiz/services/quiz-service";
+import { useQuizState } from "@/features/quiz/hooks/use-quiz-state";
+import { useQuizLogic } from "@/features/quiz/hooks/use-quiz-logic";
 
-import { QuizLoader } from "@/components/quiz/QuizLoader";
-import { QuizHeader } from "@/components/quiz/QuizHeader";
-import { QuestionCard } from "@/components/quiz/QuestionCard";
-import { QuizNavigation } from "@/components/quiz/QuizNavigation";
-import { QuestionNavigator } from "@/components/quiz/QuizNavigator";
+import { QuizLoader } from "@/features/quiz/components/QuizLoader";
+import { QuizHeader } from "@/features/quiz/components/QuizHeader";
+import { QuestionCard } from "@/features/quiz/components/QuestionCard";
+import { QuizNavigation } from "@/features/quiz/components/QuizNavigation";
+import { QuestionNavigator } from "@/features/quiz/components/QuizNavigator";
 
 function QuizContent() {
   const { user } = useUser();

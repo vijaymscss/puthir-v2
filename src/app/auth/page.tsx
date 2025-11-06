@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { CustomSignIn } from '@/components/auth/CustomSignIn';
-import { CustomSignUp } from '@/components/auth/CustomSignUp';
+import { CustomSignIn } from '@/features/auth/components/CustomSignIn';
+import { CustomSignUp } from '@/features/auth/components/CustomSignUp';
 
 /**
  * Blue-themed authentication hub with split layout inspired by the provided mock.

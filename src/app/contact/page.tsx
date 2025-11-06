@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import ContactForm from '@/components/forms/ContactForm';
+import { Button } from "@/shared/components/ui/button";
+import ContactForm from '@/features/contact/components/ContactForm';
 import Link from "next/link";
-import { contactContent } from "@/content/contact.content";
+import { contactContent } from "@/features/contact/content/contact.content";
 import * as Icons from "lucide-react";
 
 // Icon mapper component

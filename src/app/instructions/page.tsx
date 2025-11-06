@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { examTopics } from "@/utils/constants";
+import { examTopics } from "@/features/exam/constants/examTopics";
 
 function InstructionsContent() {
   const [isVisible, setIsVisible] = useState(false);

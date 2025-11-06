@@ -1,8 +1,8 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
-import { ContactFormData, contactFormSchema } from '@/lib/validations/contact'
-import { ApiResponse, ContactInfo } from '@/lib/api/types'
+import { prisma } from '@/core/config/prisma'
+import { ContactFormData, contactFormSchema } from '@/features/contact/validations/contact'
+import { ApiResponse, ContactInfo } from '@/shared/types/api'
 import { revalidatePath } from 'next/cache'
 
 export async function createContactAction(data: ContactFormData): Promise<ApiResponse<ContactInfo>> {

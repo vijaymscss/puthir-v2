@@ -1,14 +1,14 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useExamHistory } from "@/hooks/use-quiz";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { useExamHistory } from "@/features/quiz/hooks/use-quiz";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { Button } from "@/shared/components/ui/button";
+import { Badge } from "@/shared/components/ui/badge";
 import Link from "next/link";
 import { Calendar, Clock, Trophy, BookOpen, Target, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
-import ExamDetailsModal from "@/components/ExamDetailsModal";
+import ExamDetailsModal from "@/features/exam/components/ExamDetailsModal";
 import { useState } from "react";
 
 export default function ExamHistoryPage() {

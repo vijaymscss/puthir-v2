@@ -1,8 +1,8 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
-import { QuizResult, quizResultSchema, ExamHistoryData } from '@/lib/validations/quiz'
-import { ApiResponse } from '@/lib/api/types'
+import { prisma } from '@/core/config/prisma'
+import { QuizResult, quizResultSchema, ExamHistoryData } from '@/features/quiz/validations/quiz'
+import { ApiResponse } from '@/shared/types/api'
 import { revalidatePath } from 'next/cache'
 import { auth } from '@clerk/nextjs/server'
 

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/shared/components/ui/accordion";
 import Link from "next/link";
 import Image from "next/image";
-import { examTopics } from "@/utils/constants";
+import { examTopics } from "@/features/exam/constants/examTopics";
 import { ChevronLeft, Clock, FileText, Target, BookOpen, ArrowLeft, CheckCircle } from "lucide-react";
 
 interface ExamDomain {

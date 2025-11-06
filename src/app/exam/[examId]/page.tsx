@@ -1,10 +1,10 @@
 "use client";
 
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { examTopics } from "@/utils/constants";
+import { examTopics } from "@/features/exam/constants/examTopics";
 import { useState, useEffect, Suspense } from "react";
 
 interface ExamType {
