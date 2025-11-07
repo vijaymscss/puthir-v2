@@ -2,12 +2,12 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
+import { Button } from '@/shared/components/ui/button'
+import { Input } from '@/shared/components/ui/input'
+import { Textarea } from '@/shared/components/ui/textarea'
+import { Label } from '@/shared/components/ui/label'
 import { contactFormSchema, type ContactFormData } from '@/lib/validations/contact'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { Mail, Phone, MessageSquare, User, AlertCircle, CheckCircle } from 'lucide-react'
 import { useContactForm } from '@/hooks/use-contact'
 
@@ -66,7 +66,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           Contact Us
         </CardTitle>
         <p className="text-muted-foreground text-center">
-          Have a question or feedback? We'd love to hear from you.
+          Have a question or feedback? We&apos;d love to hear from you.
         </p>
         
       </CardHeader>

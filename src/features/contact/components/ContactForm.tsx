@@ -66,7 +66,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           Contact Us
         </CardTitle>
         <p className="text-muted-foreground text-center">
-          Have a question or feedback? We'd love to hear from you.
+          Have a question or feedback? We&apos;d love to hear from you.
         </p>
         
       </CardHeader>

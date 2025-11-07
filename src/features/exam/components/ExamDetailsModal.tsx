@@ -19,8 +19,7 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
-  Download,
-  X
+  Download
 } from "lucide-react";
 import { format } from "date-fns";
 import jsPDF from 'jspdf';

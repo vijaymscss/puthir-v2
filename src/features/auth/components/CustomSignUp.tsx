@@ -188,7 +188,7 @@ export function CustomSignUp({ onSwitchToSignIn }: { onSwitchToSignIn?: () => vo
             <form onSubmit={handleVerification} className="space-y-4">
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4" suppressHydrationWarning>
                 <p className="text-sm text-blue-800 dark:text-blue-300" suppressHydrationWarning>
-                  We've sent a verification code to <strong>{email}</strong>. Please check your inbox.
+                  We&apos;ve sent a verification code to <strong>{email}</strong>. Please check your inbox.
                 </p>
               </div>
 

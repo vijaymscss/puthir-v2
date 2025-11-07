@@ -4,7 +4,6 @@ import { useSignIn } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
@@ -287,7 +286,7 @@ export function CustomSignIn({ onSwitchToSignUp }: { onSwitchToSignUp?: () => vo
 
           {/* Sign-up link */}
           <p className="text-center text-sm text-slate-500 pt-2">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             {onSwitchToSignUp ? (
               <button
                 type="button"

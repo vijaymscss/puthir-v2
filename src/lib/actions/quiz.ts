@@ -120,7 +120,7 @@ export async function getExamHistoryAction(emailId?: string): Promise<ApiRespons
     }
 
     // Build query conditions
-    const whereCondition: any = {}
+    const whereCondition: { emailId?: string } = {}
     if (emailId) {
       whereCondition.emailId = emailId
     }
@@ -144,7 +144,7 @@ export async function getExamHistoryAction(emailId?: string): Promise<ApiRespons
   }
 }
 
-export async function getExamResultByIdAction(id: string): Promise<ApiResponse<ExamHistoryData & { parsedResultSummary?: any }>> {
+export async function getExamResultByIdAction(id: string): Promise<ApiResponse<ExamHistoryData & { parsedResultSummary?: Record<string, unknown> }>> {
   try {
     const { userId } = await auth()
     

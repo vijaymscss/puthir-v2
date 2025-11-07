@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { useExamResult } from "@/hooks/use-quiz";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { Button } from "@/shared/components/ui/button";
+import { Badge } from "@/shared/components/ui/badge";
 import { 
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "./ui/dialog";
+} from "@/shared/components/ui/dialog";
 import { 
   Calendar, 
   Clock, 
@@ -19,8 +19,7 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
-  Download,
-  X
+  Download
 } from "lucide-react";
 import { format } from "date-fns";
 import jsPDF from 'jspdf';

@@ -4,8 +4,7 @@ import { useSignIn } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/shared/components/ui/input';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 
@@ -66,9 +65,9 @@ export function CustomSignIn({ onSwitchToSignUp }: { onSwitchToSignUp?: () => vo
         console.log('⚠️ Sign-in incomplete:', result.status);
         setError('Sign-in incomplete. Please try again.');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('❌ Sign-in error:', err);
-      setError(err.errors?.[0]?.message || 'Failed to sign in. Please check your email and password.');
+      setError((err as any).errors?.[0]?.message || 'Failed to sign in. Please check your email and password.');
       setPassword('');
     } finally {
       setIsLoading(false);
@@ -287,7 +286,7 @@ export function CustomSignIn({ onSwitchToSignUp }: { onSwitchToSignUp?: () => vo
 
           {/* Sign-up link */}
           <p className="text-center text-sm text-slate-500 pt-2">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             {onSwitchToSignUp ? (
               <button
                 type="button"

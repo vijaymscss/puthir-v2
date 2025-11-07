@@ -1,6 +1,6 @@
 import { ContactFormData } from '@/features/contact/validations/contact'
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean
   data?: T
   error?: string
