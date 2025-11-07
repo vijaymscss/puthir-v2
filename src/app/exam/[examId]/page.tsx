@@ -7,22 +7,6 @@ import Image from "next/image";
 import { examTopics } from "@/features/exam/constants/examTopics";
 import { useState, useEffect, Suspense } from "react";
 
-interface ExamType {
-  id: string;
-  name: string;
-  level: string;
-  description: string;
-  duration: string;
-  questionCount: string;
-  examCode?: string;
-  passingScore?: number;
-  categories: string[];
-  detailedSyllabus?: Array<{
-    domain: string;
-    topics: string[];
-  }>;
-}
-
 function ExamDetailsContent() {
   const params = useParams();
   const router = useRouter();

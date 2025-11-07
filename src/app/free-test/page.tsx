@@ -3,21 +3,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { examTopics } from "@/features/exam/constants/examTopics";
 import { getExamTopics } from "@/features/exam/constants/examTopicMappings";
-
-interface ExamType {
-  id: string;
-  name: string;
-  level: string;
-  description: string;
-  duration: string;
-  questionCount: string;
-  examCode?: string;
-  passingScore?: number;
-  categories: string[];
-}
 
 interface CloudPlatform {
   id: string;
@@ -195,10 +184,12 @@ export default function FreeTestPage() {
                 <div className="text-center">
                   <div className="mb-3 flex justify-center">
                     <div className="p-2 group-hover:scale-110 transition-transform duration-300">
-                      <img 
+                      <Image 
                         src={platform.icon} 
                         alt={`${platform.name} logo`}
-                        className="w-12 h-12 object-contain"
+                        width={48}
+                        height={48}
+                        className="object-contain"
                       />
                     </div>
                   </div>

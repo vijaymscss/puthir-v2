@@ -3,21 +3,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { examTopics } from "@/features/exam/constants/examTopics";
 import { getExamTopics } from "@/features/exam/constants/examTopicMappings";
-
-interface ExamType {
-  id: string;
-  name: string;
-  level: string;
-  description: string;
-  duration: string;
-  questionCount: string;
-  examCode?: string;
-  passingScore?: number;
-  categories: string[];
-}
 
 interface CloudPlatform {
   id: string;
@@ -117,12 +106,6 @@ export default function QuizSetupPage() {
     });
   };
 
-  // Get current exam data for topic selection
-  const getCurrentExamData = () => {
-    if (!selectedExam) return null;
-    return examTopics.find(topic => topic.id === selectedPlatform)?.examTypes.find(exam => exam.id === selectedExam);
-  };
-
   const handleContinue = () => {
     const platform = cloudPlatforms.find(p => p.id === selectedPlatform);
     if (platform?.available && selectedExam && selectedQuizOption) {
@@ -182,10 +165,12 @@ export default function QuizSetupPage() {
                 <div className="text-center">
                   <div className="mb-3 flex justify-center">
                     <div className="p-2 group-hover:scale-110 transition-transform duration-300">
-                      <img 
+                      <Image 
                         src={platform.icon} 
                         alt={`${platform.name} logo`}
-                        className="w-12 h-12 object-contain"
+                        width={48}
+                        height={48}
+                        className="object-contain"
                       />
                     </div>
                   </div>
@@ -474,7 +459,7 @@ export default function QuizSetupPage() {
                         <div className="mt-4 pt-4 border-t-2 border-green-200 dark:border-green-800">
                           <p className="text-green-700 dark:text-green-300 font-semibold text-sm flex items-center gap-2">
                             <span className="inline-block">✨</span>
-                            Great! You're all set. Click "Start Quiz" to begin your customized practice session.
+                            Great! You&apos;re all set. Click &quot;Start Quiz&quot; to begin your customized practice session.
                           </p>
                         </div>
                       )}

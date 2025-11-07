@@ -81,7 +81,7 @@ export default function Home() {
               <p className={`text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed transition-all duration-1000 ease-out delay-400 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>
-                Join thousands of professionals who've successfully passed their AWS, Azure, and GCP certifications using our intelligent quiz platform with real-time analytics and adaptive learning.
+                Join thousands of professionals who&apos;ve successfully passed their AWS, Azure, and GCP certifications using our intelligent quiz platform with real-time analytics and adaptive learning.
               </p>
             </div>
 
@@ -220,7 +220,7 @@ export default function Home() {
               Start Your Certification Journey Today
             </h3>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join thousands of professionals who've passed their cloud certifications with our proven platform. Free forever core features available to all users.
+              Join thousands of professionals who&apos;ve passed their cloud certifications with our proven platform. Free forever core features available to all users.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <SignedIn>

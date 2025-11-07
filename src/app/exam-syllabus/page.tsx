@@ -7,24 +7,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Link from "next/link";
 import Image from "next/image";
 import { examTopics } from "@/features/exam/constants/examTopics";
-import { ChevronLeft, Clock, FileText, Target, BookOpen, ArrowLeft, CheckCircle } from "lucide-react";
+import { ChevronLeft, Clock, FileText, Target, ArrowLeft, CheckCircle } from "lucide-react";
 
 interface ExamDomain {
   domain: string;
   topics: string[];
-}
-
-interface ExamType {
-  id: string;
-  name: string;
-  level: string;
-  description: string;
-  duration: string;
-  questionCount: string;
-  examCode?: string;
-  passingScore?: number;
-  categories: string[];
-  detailedSyllabus?: ExamDomain[];
 }
 
 export default function ExamSyllabusPage() {

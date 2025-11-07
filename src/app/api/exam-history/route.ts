@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/core/config/prisma'
 
+interface QuizQuestion {
+  isCorrect: boolean;
+  [key: string]: unknown;
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
@@ -51,8 +56,8 @@ export async function POST(request: Request) {
           score: data.score,
           totalQuestions: data.totalQuestions || data.questions.length,
           percentage: data.percentage,
-          correctAnswers: data.questions.filter((q: any) => q.isCorrect).length,
-          incorrectAnswers: data.questions.filter((q: any) => !q.isCorrect).length
+          correctAnswers: data.questions.filter((q: QuizQuestion) => q.isCorrect).length,
+          incorrectAnswers: data.questions.filter((q: QuizQuestion) => !q.isCorrect).length
         },
         metadata: {
           submittedAt: new Date().toISOString(),

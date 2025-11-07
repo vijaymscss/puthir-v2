@@ -10,7 +10,7 @@ const IconComponent = ({ name, className }: { name: string; className?: string }
 };
 
 // Color mapper for proper Tailwind classes
-const getColorClasses = (color: string, type: 'feature' | 'tech' | 'reason' = 'feature') => {
+const getColorClasses = (color: string) => {
   const colorMap: Record<string, {
     hover: string;
     hoverDark: string;
@@ -97,7 +97,7 @@ const getColorClasses = (color: string, type: 'feature' | 'tech' | 'reason' = 'f
 };
 
 export default function AboutPage() {
-  const { hero, mission, features, technology, whyChoose, cta } = aboutContent;
+  const { hero, mission, features, whyChoose, cta } = aboutContent;
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50/30 via-indigo-50/20 to-purple-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/20 py-12">

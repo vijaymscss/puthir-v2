@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/shared/components/ui/button";
 import Link from "next/link";
 import { getDemoQuestions, DemoQuestion } from "@/features/free-test/constants/demoQuestions";
 
 function FreeTestQuizContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   
   const platform = searchParams.get("platform");

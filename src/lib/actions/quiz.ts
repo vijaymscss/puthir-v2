@@ -60,8 +60,6 @@ export async function storeQuizResultAction(data: QuizResult): Promise<ApiRespon
         }
       })
       
-      console.log('User details ensured:', userDetails.emailId)
-      
       // Create exam history record
       const examHistory = await tx.examHistory.create({
         data: {

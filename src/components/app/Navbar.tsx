@@ -1,0 +1,175 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/app/ThemeToggle";
+import Link from "next/link";
+import { useState } from "react";
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import { useTheme } from "next-themes";
+import Image from "next/image";
+
+export default function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { resolvedTheme } = useTheme();
+
+
+  return (
+    <nav className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo and brand */}
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src={resolvedTheme === 'dark' ? '/cpt_logo_dark.png' : '/cpt_logo_light.png'}
+                alt="CPT Logo"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+                priority
+                suppressHydrationWarning
+              />
+              <div className='text-left' suppressHydrationWarning>
+              <p className='font-bold text-xl text-blue-900 dark:text-white' suppressHydrationWarning>Cloud Practice Test</p>
+              <p className='text-sm text-slate-500 dark:text-amber-50' suppressHydrationWarning>The product of Cloud-V</p>
+              </div>
+            </Link>
+          </div>
+
+          {/* Right side navigation */}
+          <div className="flex items-center space-x-6">
+            {/* Desktop navigation */}
+            <div className="hidden md:flex items-center space-x-6">
+              <Link 
+                href="/about" 
+                className="text-foreground hover:text-primary transition-colors duration-200"
+              >
+                About
+              </Link>
+              <Link 
+                href="/free-test" 
+                className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-semibold transition-colors duration-200"
+              >
+                Free Test 🎯
+              </Link>
+              <Link 
+                href="/exam-syllabus" 
+                className="text-foreground hover:text-primary transition-colors duration-200"
+              >
+                Browse Syllabus
+              </Link>
+              <Link 
+                href="/contact" 
+                className="text-foreground hover:text-primary transition-colors duration-200"
+              >
+                Contact
+              </Link>
+              <SignedIn>
+                <Link 
+                  href="/exam-history" 
+                  className="text-foreground hover:text-primary transition-colors duration-200"
+                >
+                  Exam History
+                </Link>
+              </SignedIn>
+              <ThemeToggle />
+              <SignedOut>
+                <div className="flex items-center gap-2">
+                  <Link href="/auth">
+                    <Button variant="default" size="sm">
+                      Sign In
+                    </Button>
+                  </Link>
+                </div>
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </div>
+
+            {/* Mobile controls */}
+            <div className="md:hidden flex items-center space-x-2">
+              <ThemeToggle />
+              <button 
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="text-foreground hover:text-primary p-2"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} 
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-border">
+              <Link 
+                href="/about" 
+                className="block px-3 py-2 text-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link 
+                href="/free-test" 
+                className="block px-3 py-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-semibold transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Free Test 🎯
+              </Link>
+              <Link 
+                href="/exam-syllabus" 
+                className="block px-3 py-2 text-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Browse Syllabus
+              </Link>
+              <Link 
+                href="/contact" 
+                className="block px-3 py-2 text-foreground hover:text-primary transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              <SignedIn>
+                <Link 
+                  href="/exam-history" 
+                  className="block px-3 py-2 text-foreground hover:text-primary transition-colors duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Exam History
+                </Link>
+              </SignedIn>
+              <div className="px-3 py-2 space-y-2">
+                <SignedOut>
+                  <Link href="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button variant="default" size="sm" className="w-full">
+                      Sign In / Sign Up
+                    </Button>
+                  </Link>
+                </SignedOut>
+                <SignedIn>
+                  <div className="flex justify-center">
+                    <UserButton />
+                  </div>
+                </SignedIn>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}

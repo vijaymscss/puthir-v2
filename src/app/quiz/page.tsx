@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { examTopics } from "@/features/exam/constants/examTopics";
 import { useUser } from "@clerk/nextjs";
 
-import { QuizData, QuizRequest } from "@/features/quiz/services/quiz-service";
+import { QuizRequest } from "@/features/quiz/services/quiz-service";
 import { useQuizState } from "@/features/quiz/hooks/use-quiz-state";
 import { useQuizLogic } from "@/features/quiz/hooks/use-quiz-logic";
 
@@ -17,7 +17,6 @@ import { QuestionNavigator } from "@/features/quiz/components/QuizNavigator";
 
 function QuizContent() {
   const { user } = useUser();
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const examId = searchParams.get("exam");
@@ -74,7 +73,6 @@ function QuizContent() {
     setError,
     loadQuiz,
     saveAnswers,
-    clearQuizSession,
   } = useQuizState(examId, quizType, encodedTopics);
 
   const {
@@ -94,14 +92,14 @@ function QuizContent() {
     if (examData && quizRequest) {
       loadQuiz(quizRequest);
     }
-  }, [examId, quizType, encodedTopics]);
+  }, [examId, quizType, encodedTopics, examData, quizRequest, loadQuiz]);
 
   // Auto-save answers to session storage
   useEffect(() => {
     if (Object.keys(selectedAnswers).length > 0) {
       saveAnswers();
     }
-  }, [selectedAnswers]);
+  }, [selectedAnswers, saveAnswers]);
 
   // Handle loading states
   if (loading) {
