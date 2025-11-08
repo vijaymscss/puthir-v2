@@ -28,7 +28,7 @@ export function QuestionNavigator({
         </p>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-5 lg:grid-cols-4 gap-2 mb-6">
+        <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-2 mb-6">
           {Array.from({ length: totalQuestions }).map((_, index) => {
             const isAnswered = answeredQuestions.has(index);
             const isCurrent = index === currentQuestion;
@@ -38,7 +38,7 @@ export function QuestionNavigator({
                 key={index}
                 onClick={() => onQuestionSelect(index)}
                 className={`
-                  w-10 h-10 rounded-lg border-2 text-sm font-medium transition-all duration-200
+                  w-9 h-9 rounded-lg border-2 text-xs font-medium transition-all duration-200
                   ${
                     isCurrent
                       ? 'border-blue-500 bg-blue-500 text-white shadow-lg'

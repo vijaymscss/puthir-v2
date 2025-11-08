@@ -46,16 +46,3 @@ model ExamHistory {
 
   @@map("examHistory")
 }
-
-model ContactInfo {
-  contactId      String   @id @default(cuid())
-  emailId        String
-  name           String
-  phoneNo        String?  // Optional phone number
-  subject        String
-  message        String   // SQLite uses TEXT by default
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  @@map("contactInfo")
-}

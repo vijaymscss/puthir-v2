@@ -1,13 +1,14 @@
-// Development Prisma schema with SQLite
-// This is a temporary solution for local development
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model UserDetails {
@@ -37,7 +38,7 @@ model ExamHistory {
   testDateTime          DateTime
   score                 Int
   percentage            Float
-  resultSummary         String   // SQLite uses TEXT by default
+  resultSummary         String   @db.Text // Store complete result data as text
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
@@ -53,7 +54,7 @@ model ContactInfo {
   name           String
   phoneNo        String?  // Optional phone number
   subject        String
-  message        String   // SQLite uses TEXT by default
+  message        String   @db.Text
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 

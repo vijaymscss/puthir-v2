@@ -68,6 +68,7 @@ function QuizContent() {
     error,
     quizData,
     quizStartTime,
+    isGenerating,
     setCurrentQuestion,
     setSelectedAnswers,
     setError,
@@ -101,8 +102,8 @@ function QuizContent() {
     }
   }, [selectedAnswers, saveAnswers]);
 
-  // Handle loading states
-  if (loading) {
+  // Handle loading states - check both local loading and mutation pending
+  if (loading || isGenerating) {
     return <QuizLoader state="loading" />;
   }
 

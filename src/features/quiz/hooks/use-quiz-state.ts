@@ -91,15 +91,25 @@ export const useQuizState = (examId: string | null, quizType: string | null, enc
 
     generateNewQuiz(quizRequest, {
       onSuccess: (data: QuizData) => {
-        console.log("✅ Quiz generated successfully:", data);
+        console.log("🎊 [Quiz State] onSuccess callback received data:", data);
+        console.log("📋 [Quiz State] Quiz data structure:", {
+          questionsCount: data?.questions?.length,
+          examInfo: data?.examInfo?.name,
+          hasQuestions: Array.isArray(data?.questions)
+        });
+        
         sessionStorage.setItem(sessionKey, JSON.stringify(data));
         setQuizData(data);
         setLoading(false);
+        
+        console.log("🔄 [Quiz State] State updated: loading=false, quizData set");
       },
       onError: (error: Error) => {
-        console.error("❌ Quiz generation failed:", error);
+        console.error("❌ [Quiz State] onError callback triggered:", error);
         setError(error.message);
         setLoading(false);
+        
+        console.log("🔄 [Quiz State] Error state updated: loading=false, error set");
       },
     });
   };

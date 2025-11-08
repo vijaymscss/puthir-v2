@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { generateQuiz, QuizRequest, QuizData } from "@/features/quiz/services/quiz-service";
 import { QuizResult, ExamHistoryData } from '@/features/quiz/validations/quiz';
+import { generateQuizServerAction } from '@/lib/actions/quiz-server';
 import { 
   storeQuizResultAction, 
   getExamHistoryAction, 
@@ -13,17 +14,48 @@ export const useGenerateQuiz = () => {
   const queryClient = useQueryClient();
 
   return useMutation<QuizData, Error, QuizRequest>({
-    mutationFn: (variables) => {
-      return generateQuiz(variables);
+    mutationFn: async (variables) => {
+      console.log('🎯 [Client Mutation] Starting server action call with:', variables);
+      
+      try {
+        // Use the server action instead of client-side API call
+        const result = await generateQuizServerAction(variables);
+        
+        console.log('📥 [Client Mutation] Server action result received:', {
+          success: result.success,
+          hasData: !!result.data,
+          hasError: !!result.error,
+          dataType: typeof result.data
+        });
+        
+        if (!result.success) {
+          console.error('❌ [Client Mutation] Server action failed:', result.error);
+          throw new Error(result.error || 'Failed to generate quiz');
+        }
+        
+        console.log('✅ [Client Mutation] Returning quiz data to mutation');
+        return result.data!;
+      } catch (error) {
+        console.error('❌ [Client Mutation] Exception in mutation function:', error);
+        throw error;
+      }
     },
     onSuccess: (data, variables) => {
+      console.log('🎉 [Client Mutation] onSuccess callback triggered with:', {
+        hasData: !!data,
+        questionCount: data?.questions?.length,
+        examName: data?.examInfo?.name,
+        variables: variables
+      });
       
       // Cache the quiz data with a specific key
       const queryKey = ['quiz', variables.examName, variables.quizType, variables.questionCount];
       queryClient.setQueryData(queryKey, data);
+      
+      console.log('💾 [Client Mutation] Data cached with key:', queryKey);
     },
     onError: (error) => {
-      console.error("❌ MUTATION ERROR - Quiz generation failed:", error);
+      console.error("❌ [Client Mutation] onError callback triggered:", error);
     },
   });
 };
